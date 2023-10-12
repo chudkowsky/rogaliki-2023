@@ -22,13 +22,26 @@
         - Żeliwna Zbroja 
     - dobre:
         - Amelinowa Zbroja - powstała w wyniku zakładu dwóch krasnoludów w karczmie zastanawiającyh sie 
-        czy da sie wykuć amelinową zbroje
+        czy da sie wykuć i pomalować amelinową zbroje
         - Stalowa Zbroja
         - Wolframowa Kamizelka
     - epicki:
         - Kolczuga Bilba - zbroja zrobiona z mithrilu
         - Zbroja Thranduila 
-- Bron (Topor, Miecz, Miecz oburęczny, Młot)
+- Bron:
+    - Topor:
+        - normalny:
+        - dobry:
+        - epicki:
+    - Miecz:
+        - normalny:
+        - dobry:
+        - epicki:
+    - Miecz oburęczny:
+        - normalny:
+        - dobry:
+        - epicki: 
+    - Młot
 - Eliksiry wzmacniające
 - Księgi z runami pozwalajace ulepszyc bron
 - Pierścienie podnoszące umiejętności
