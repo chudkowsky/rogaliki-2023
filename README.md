@@ -38,9 +38,9 @@
         - dobry: Niklowy kuty miecz
         - epicki: miecz Bellerofonta
     - Miecz oburęczny:
-        - normalny:
-        - dobry:
-        - epicki: 
+        - normalny: Połamany stary miecz
+        - dobry: Elifcki Miecz
+        - epicki: Serce Góry 
     - Młot
 - Eliksiry wzmacniające
 - Księgi z runami pozwalajace ulepszyc bron
