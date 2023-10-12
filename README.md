@@ -15,7 +15,19 @@
     - Uniki 
     - Szansa na atak krytyczny
 ### Ekwipunek dzielący sie na 3 rodzaje jakosci (epicki, dobry, zwyczajny):
-- Zbroja 
+- Zbroja:
+    - normalne:
+        - Drewniana zbroja 
+        - Miedziana Kolczuga
+        - Żeliwna Zbroja 
+    - dobre:
+        - Amelinowa Zbroja - powstała w wyniku zakładu dwóch krasnoludów w karczmie zastanawiającyh sie 
+        czy da sie wykuć amelinową zbroje
+        - Stalowa Zbroja
+        - Wolframowa Kamizelka
+    - epicki:
+        - Kolczuga Bilba - zbroja zrobiona z mithrilu
+        - Zbroja Thranduila 
 - Bron (Topor, Miecz, Miecz oburęczny, Młot)
 - Eliksiry wzmacniające
 - Księgi z runami pozwalajace ulepszyc bron
@@ -38,5 +50,5 @@ Mechaniki:
 - Kowadła (szansa na ulepszenie przedmiotu z nizszych klas na wyzsze, szanse rosna wraz z posiadsaniem księgi)
 
 Mechanika rozwoju postaci:
-
+- 
 
