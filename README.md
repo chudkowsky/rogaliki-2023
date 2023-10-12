@@ -30,13 +30,13 @@
         - Zbroja Thranduila 
 - Bron:
     - Topor:
-        - normalny:
-        - dobry:
-        - epicki:
+        - normalny: Spróchniały topór 
+        - dobry: Stalowy topór
+        - epicki: topór Halirrotiosa
     - Miecz:
-        - normalny:
-        - dobry:
-        - epicki:
+        - normalny: Zardzewiały Sztylet
+        - dobry: Niklowy kuty miecz
+        - epicki: miecz Bellerofonta
     - Miecz oburęczny:
         - normalny:
         - dobry:
