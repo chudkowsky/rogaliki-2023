@@ -1,3 +1,4 @@
+
 class item:
     name = '&'
 
@@ -12,73 +13,80 @@ class map_element:
     wall = '#'
     floor = "_"
 
-
-def map_manager(mapa,n, m):
-    show_info(mapa, n, m)
-
-
-def move_person(mapa,n,m,x1,y1,v):
-    if(v == "UP"):
-        if(if_move_possible(mapa, n, m, x1-1, y1)):
-            mapa[x1][y1] = "_"
-            mapa[x1-1][y1] = "@"
-            
-    if(v == "DOWN"):
-        if(if_move_possible(mapa, n, m, x1+1, y1)):
-            mapa[x1][y1] = "_"
-            mapa[x1+1][y1] = "@"
-    if(v == "LEFT"):
-        if(if_move_possible(mapa, n, m, x1, y1-1)):
-            mapa[x1][y1] = "_"
-            mapa[x1][y1-1] = "@"
-    if(v == "RIGHT"):
-        if(if_move_possible(mapa, n, m, x1, y1+1)):
-            mapa[x1][y1] = "_"
-            mapa[x1][y1+1] = "@"
+class Map():   
     
-def if_move_possible(mapa,n,m,x2,y2):
-    if(mapa[x2][y2] == map_element.floor and x2!=n and y2!=m):
-        return True
-    else:
-        return False
+    def __init__(self,map_layout,x,y):
+        self.map_layout = map_layout
+        self.x = x
+        self.y = y
     
-def show_info(mapa,n,m):
-    item_counter = 0
-    person_counter = 0
-    for i in range(n):
-        for j in range(m):
-            if(mapa[i][j]==item.name):
-                item_counter+=1
-            if(mapa[i][j]==person.name):
-                person_counter+=1
-    print("Na mapie liczba przedmiotów to: ",item_counter,", liczba postaci to: ",person_counter)
+    def map_printer(self):
+        for j in range (self.y+1):
+            print(" _",end="")
+        print('\n')   
+        for i in range(self.x):
+            print("| ",end="")
+            for j in range(self.y):
+                print (self.map_layout[i][j]+" ", end="")  
+            print('|')
+        for j in range (self.y+1):
+            print(" _",end="")
+        print('\n')
+        
+    def map_check(self):
+        print("Na pozycji: ",self.x,",",self.y," znajduje się", self.map_layout[self.x][self.y])
     
+    def map_swap(self):
+        self.map_layout[self.x][self.y] = item.name
+        
+    def show_info(self):
+        item_counter = 0
+        person_counter = 0
+        for i in range(self.x):
+            for j in range(self.y):
+                if(self.map_layout[i][j]==item.name):
+                    item_counter+=1
+                if(self.map_layout[i][j]==person.name):
+                    person_counter+=1
+        print("Na mapie liczba przedmiotów to: ",item_counter,", liczba postaci to: ",person_counter)
 
-def map_printer(mapa,n,m):
-    for j in range (m+1):
-        print(" _",end="")
-    print('\n')   
-    for i in range(n):
-        print("| ",end="")
-        for j in range(m):
-            print (mapa[i][j]+" ", end="")  
-        print('|')
-    for j in range (m+1):
-        print(" _",end="")
-    print('\n')
+    def if_move_possible(self,x2,y2):
+        if(self.map_layout[x2][y2] == map_element.floor and x2!=self.x and y2!=self.y):
+            return True
+        else:
+            return False
+        
+    def move_person(self, x1, y1, v):
+        if v == "UP":
+            if self.if_move_possible(x1 - 1, y1):
+                self.map_layout[x1][y1] = "_"
+                self.map_layout[x1 - 1][y1] = "@"
+        elif v == "DOWN":
+            if self.if_move_possible(x1 + 1, y1):
+                self.map_layout[x1][y1] = "_"
+                self.map_layout[x1 + 1][y1] = "@"
+        elif v == "LEFT":
+            if self.if_move_possible(x1, y1 - 1):
+                self.map_layout[x1][y1] = "_"
+                self.map_layout[x1][y1 - 1] = "@"
+        elif v == "RIGHT":
+            if self.if_move_possible(x1, y1 + 1):
+                self.map_layout[x1][y1] = "_"
+                self.map_layout[x1][y1 + 1] = "@"
     
+    
+    
+    def map_swap(self,item,x,y):
+        self.map_layout[x][y] = item.name
 
-def map_swap(mapa,item,x,y):
-    mapa[x][y] = item.name
 
-def map_check(mapa,x,y):
-    print("Na pozycji: ",x,",",y," znajduje się", mapa[x][y])
     
 def test_map():
     mapa1 = [['#', '#', '#', '#', '#'],
             ['#', '_', '_', '#', '#'],
             ['#', '@', '_', '&', '#'],
-            ['#', '#', '&', '#', '#']]
+            ['#', '#', '&', '#', '#']
+            ]
     
     mapa2 = [['#', '#', '#', '#', '#'],
             ['#', '@', '#', '#', '#'],
@@ -94,9 +102,10 @@ def test_map():
             ['#', '#', '#', '#', '#'],
             ['#', '#', '#', '&', '#'],
             ['#', '@', '#', '#', '#']]
+    mapka = Map(mapa1, 4, 5)
+    mapka.map_printer()
+    mapka.move_person(2,1,"UP")
+    mapka.map_printer()
 
-    map_printer(mapa1,4,5)
-    move_person(mapa1,4,5,2,1,"UP")
-    map_printer(mapa1,4,5)
 
 test_map()
