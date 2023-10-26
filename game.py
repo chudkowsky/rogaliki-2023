@@ -96,7 +96,7 @@ def test_map():
             ['#', '@', '#', '#', '#']]
 
     map_printer(mapa1,4,5)
-    move_person(mapa1, 4, 5,2,1,"UP")
+    move_person(mapa1,4,5,2,1,"UP")
     map_printer(mapa1,4,5)
 
 test_map()
