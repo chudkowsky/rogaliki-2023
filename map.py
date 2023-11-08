@@ -103,9 +103,9 @@ def test_map():
             ['#', '#', '#', '&', '#'],
             ['#', '@', '#', '#', '#']]
     mapka = Map(mapa1, 4, 5)
-    mapka.map_printer()
+    #mapka.map_printer()
     mapka.move_person(2,1,"UP")
-    mapka.map_printer()
+    #mapka.map_printer()
 
 
 test_map()
