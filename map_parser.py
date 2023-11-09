@@ -18,4 +18,6 @@ def map_parser(directory):
     if tmp:
         result.append(tmp.copy())
 
-    return result
+    return [result,len(result),len(result[0])]
+
+

@@ -2,7 +2,7 @@ import map as m
 import actor as a
 import item as i
 import map_element as el
-
+import map_parser as p
 
 def test_map2():
     it = i.Item(2, 2)
@@ -24,4 +24,16 @@ def test_map2():
     mapka1.map_printer()
 
 
-test_map2()
+
+
+def test_map1():
+    result = p.map_parser("map_parser_test")
+    it = i.Item(2, 2)
+    it2 = i.Item(1, 2)
+    dog = a.Mob("medium", "dog", 3, 0)
+    frog = a.Mob("small", "dog", 3, 3)
+    hero = a.Person("Mateusz", 2, 1)
+    mapka1 = m.Map(result[0],result[1],result[2],hero,[it,it2],[dog,frog])
+    mapka1.map_printer()
+
+test_map1()
