@@ -70,5 +70,7 @@ def test_map2():
     print(mapka1.if_move_possible(1,1))
     mapka1.show_info()
     mapka1.map_check(3,3)
+    mapka1.move_person(3,1)
+    mapka1.map_printer()
 
 test_map2()

@@ -57,27 +57,10 @@ class Map:
         else:
             return False
 
-    def move_person(self, x1, y1, v):
-        if v == "UP":
-            if self.if_move_possible(x1 - 1, y1):
-                self.map_layout[x1][y1] = m.Floor("floor", "_")
-                self.map_layout[x1 - 1][y1] = self.actor
-                return True
-        elif v == "DOWN":
-            if self.if_move_possible(x1 + 1, y1):
-                self.map_layout[x1][y1] = m.Floor("floor", "_")
-                self.map_layout[x1 + 1][y1] = self.actor
-                return True
-        elif v == "LEFT":
-            if self.if_move_possible(x1, y1 - 1):
-                self.map_layout[x1][y1] = m.Floor("floor", "_")
-                self.map_layout[x1][y1 - 1] = self.actor
-                return True
-        elif v == "RIGHT":
-            if self.if_move_possible(x1, y1 + 1):
-                self.map_layout[x1][y1] = m.Floor("floor", "_")
-                self.map_layout[x1][y1 + 1] = self.actor
-                return True
+    def move_person(self, x1, y1,):
+        if self.if_move_possible(x1, y1):
+            self.actor.x = x1
+            self.actor.y = y1
 
     def map_swap(self, item, x, y):
         if self.if_move_possible(x,y):
