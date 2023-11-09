@@ -1,6 +1,5 @@
 import map as m
 import actor as a
-
 import item as i
 import map_element as el
 
@@ -23,7 +22,6 @@ def test_map2():
     mapka1.move_person(3, 1)
     mapka1.map_swap(el.Floor(), 0, 0)
     mapka1.map_printer()
-
 
 
 test_map2()
