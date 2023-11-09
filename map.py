@@ -1,5 +1,5 @@
 import actor as a
-import MapElement as m
+import map_element as m
 import item as i
 
 
