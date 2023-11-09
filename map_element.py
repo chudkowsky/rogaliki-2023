@@ -1,15 +1,12 @@
-class MapElement:
-    def __init__(self,type,character):
-        self.type = type
-        self.character = character
-
-class Floor(MapElement):
-    def __init__(self, type, character):
-        super().__init__(type, character)
+class Floor():
+    def __init__(self):
+        self.type = "floor"
+        self.character = "_"
         self.placeable = True
 
-class Wall(MapElement):
-    def __init__(self, type, character):
-        super().__init__(type, character)
+class Wall():
+    def __init__(self):
+        self.type = "wall"
+        self.character = "#"
         self.placeable = False
 

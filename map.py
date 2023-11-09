@@ -38,7 +38,7 @@ class Map:
         print("Na pozycji: ", x, ",", y, " znajduje się", self.map_layout[x][y].type)
 
     def map_delete(self, x, y):
-        self.map_layout[x][y] = m.Wall("wall", "#")
+        self.map_layout[x][y] = m.Wall()
 
     def show_info(self):
         item_counter = len(self.items)
@@ -63,8 +63,5 @@ class Map:
             self.actor.y = y1
 
     def map_swap(self, item, x, y):
-        if self.if_move_possible(x,y):
-            self.map_layout[x][y] = item
-            return True
-        else:
-            return False
+        self.map_layout[x][y] = item
+
