@@ -54,8 +54,8 @@ def test_map():
 # test_map()
 
 def test_map2():
-    wall = el.MapElement("wall", "#")
-    floor = el.MapElement("floor", "_")
+    wall = el.Wall("wall", "#")
+    floor = el.Floor("floor", "_")
     it = i.Item(2, 2)
     it2 = i.Item(1, 2)
     dog = a.Mob("medium","dog",4,0)
@@ -67,7 +67,7 @@ def test_map2():
                 [wall, floor, it, floor, wall]]
     mapka1 = m.Map(mapatest, 4, 5, hero, [it, it2], [dog,frog])
     mapka1.map_printer()
-    mapka1.if_move_possible(1,1)
+    print(mapka1.if_move_possible(1,1))
     mapka1.show_info()
 
 

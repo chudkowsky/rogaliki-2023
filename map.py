@@ -29,7 +29,7 @@ class Map():
         print("Na pozycji: ", x, ",", y, " znajduje się", self.map_layout[x][y].type)
 
     def map_delete(self, x, y):
-        self.map_layout[x][y] = m.MapElement("wall", "#")
+        self.map_layout[x][y] = m.Wall("wall", "#")
 
     def show_info(self):
         item_counter = len(self.items)
@@ -38,8 +38,12 @@ class Map():
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
-            print(elements.x)
-        if self.map_layout[x2][y2] == m.MapElement("floor", "_") and x2 != self.x and y2 != self.y:
+            if(elements.x == x2 and elements.y == y2):
+                return False
+        for elements in self.items:
+            if(elements.x == x2 and elements.y == y2):
+                return False
+        if isinstance(self.map_layout[x2][y2], m.Floor) and x2 != self.x and y2 != self.y:
             return True
         else:
             return False
@@ -47,22 +51,22 @@ class Map():
     def move_person(self, x1, y1, v):
         if v == "UP":
             if self.if_move_possible(x1 - 1, y1):
-                self.map_layout[x1][y1] = m.MapElement("floor", "_")
+                self.map_layout[x1][y1] = m.Floor("floor", "_")
                 self.map_layout[x1 - 1][y1] = self.actor
                 return True
         elif v == "DOWN":
             if self.if_move_possible(x1 + 1, y1):
-                self.map_layout[x1][y1] = m.MapElement("floor", "_")
+                self.map_layout[x1][y1] = m.Floor("floor", "_")
                 self.map_layout[x1 + 1][y1] = self.actor
                 return True
         elif v == "LEFT":
             if self.if_move_possible(x1, y1 - 1):
-                self.map_layout[x1][y1] = m.MapElement("floor", "_")
+                self.map_layout[x1][y1] = m.Floor("floor", "_")
                 self.map_layout[x1][y1 - 1] = self.actor
                 return True
         elif v == "RIGHT":
             if self.if_move_possible(x1, y1 + 1):
-                self.map_layout[x1][y1] = m.MapElement("floor", "_")
+                self.map_layout[x1][y1] = m.Floor("floor", "_")
                 self.map_layout[x1][y1 + 1] = self.actor
                 return True
 
