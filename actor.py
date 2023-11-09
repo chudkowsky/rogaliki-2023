@@ -14,6 +14,7 @@ class Actor:
         return self.name
 
 
+
 class Person(Actor):
     def __init__(self):
         self.visibility = 1
