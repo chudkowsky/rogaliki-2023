@@ -34,6 +34,8 @@ class Map:
                     print(self.map_layout[i][j].character + " ", end="")
             print()
 
+        self.show_info()
+
     def map_check(self, x, y):
         print("Na pozycji: ", x, ",", y, " znajduje się", self.map_layout[x][y].type)
 
