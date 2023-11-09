@@ -1,16 +1,10 @@
 import os
 import map as m
+import actor as a
 
 
 def refresh():
-    os.system('cls')
+    for i in range(100):
+        print()
+        i += 1
 
-mapa1 = [['#', '#', '#', '#', '#'],
-            ['#', '_', '_', '#', '#'],
-            ['#', '@', '_', '&', '#'],
-            ['#', '#', '&', '#', '#']
-            ]
-mapka = m.Map(mapa1, 4, 5)
-
-mapka.map_printer()
-refresh()
