@@ -32,3 +32,4 @@ class Mob(Actor):
         super().__init__(name, x, y)
         self.weapon = 0
         self.type_of_mob = type_of_mob
+        self.character = "%"

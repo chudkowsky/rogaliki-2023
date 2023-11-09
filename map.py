@@ -2,7 +2,7 @@ import actor as a
 import map_element as m
 
 
-class Map():
+class Map:
 
     def __init__(self, map_layout, x, y, actor: a.Person, items: list, mobs: list):
         self.map_layout = map_layout
@@ -13,17 +13,26 @@ class Map():
         self.mobs = mobs
 
     def map_printer(self):
-        for j in range(self.y + 2):
-            print("# ", end="")
-        print()
+        flag = 0
         for i in range(self.x):
-            print("# ", end="")
             for j in range(self.y):
-                print(self.map_layout[i][j].character + " ", end="")
-            print('#')
-        for j in range(self.y + 2):
-            print("# ", end="")
-        print('\n')
+                for element in self.mobs:
+                    if element.x == i and element.y == j:
+                        print(element.character + " ", end="")
+                        flag = 1
+                for element in self.items:
+                    if element.x == i and element.y == j:
+                        print(element.character + " ", end="")
+                        flag = 1
+                if self.actor.x == i and self.actor.y == j:
+                    print(self.actor.character + " ", end="")
+                    flag = 1
+                if flag == 1:
+                    flag = 0
+                    continue
+                else:
+                    print(self.map_layout[i][j].character + " ", end="")
+            print()
 
     def map_check(self, x, y):
         print("Na pozycji: ", x, ",", y, " znajduje się", self.map_layout[x][y].type)
@@ -38,12 +47,12 @@ class Map():
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
-            if(elements.x == x2 and elements.y == y2):
+            if elements.x == x2 and elements.y == y2:
                 return False
         for elements in self.items:
-            if(elements.x == x2 and elements.y == y2):
+            if elements.x == x2 and elements.y == y2:
                 return False
-        if isinstance(self.map_layout[x2][y2], m.Floor) and x2 != self.x and y2 != self.y:
+        if self.map_layout[x2][y2].placeable and x2 != self.x and y2 != self.y:
             return True
         else:
             return False
@@ -71,4 +80,8 @@ class Map():
                 return True
 
     def map_swap(self, item, x, y):
-        self.map_layout[x][y] = item
+        if self.if_move_possible(x,y):
+            self.map_layout[x][y] = item
+            return True
+        else:
+            return False
