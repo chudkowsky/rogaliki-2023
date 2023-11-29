@@ -21,10 +21,10 @@ epic = Quality.EPIC
 result = p.map_parser("map_parser_test")
 miecz = i.Weapon(2, 2, rare, 2)
 it2 = i.Item(1, 2, epic)
-dog = a.Mob("medium", "dog", 3, 1, 2, 10, 10, 10, 100, 10)
-frog = a.Mob("small", "dawg", 3, 3, 2, 10, 10, 10, 70, 10)
-hero = a.Person("Mateusz", 3, 2, 10, 10, 10, 10, 80, 10)
-hero2 = a.Person("Mateusz", 3, 2, 10, 10, 10, 10, 100, 10)
+dog = a.Mob("medium", "dog", 3, 1, 8, 10, 8, 7, 100, 5)
+frog = a.Mob("small", "frog", 3, 3, 3, 3, 4, 5, 80, 10)
+hero = a.Person("Mateusz", 3, 2, 9, 5, 8, 7, 85, 6)
+hero2 = a.Person("Piotr", 3, 2, 6, 10, 10, 6, 80, 10)
 mapka1 = m.Map(result[0], result[1], result[2], hero, [miecz, it2], [dog, frog])
 mapka1.set_mobs_and_items_on_map()
 hero.add_to_eq(miecz)
@@ -43,7 +43,7 @@ def test_fight1(hero1, dog1):
     mob_wins = 0
     hero_wins = 0
 
-    for it in range(1000):
+    for it in range(10000):
         hero_copy = copy.deepcopy(hero1)
         dog_copy = copy.deepcopy(dog1)
 
@@ -52,7 +52,11 @@ def test_fight1(hero1, dog1):
         else:
             hero_wins += 1
 
-    print(f"mob won: {mob_wins} times and hero won {hero_wins} times")
+    print(f"{dog1.name} won: {mob_wins} times and {hero1.name} won: {hero_wins} times")
 
 
+test_fight1(hero, frog)
+test_fight1(hero, hero2)
+test_fight1(hero, dog)
+test_fight1(hero2, frog)
 test_fight1(hero2, dog)

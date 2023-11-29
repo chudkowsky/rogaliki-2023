@@ -1,20 +1,19 @@
 import random
 
 import item as i
-from random import Random
 
 
 class Actor:
-    def __init__(self, name, x, y, s, d, h, c, hp, sp):
+    def __init__(self, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
         self.equipment = []
         self.alive = True
         self.name = name
-        self.strength = s
-        self.defence = d
-        self.hand_to_hand_combat = h
-        self.critic_attack = c
+        self.strength = strength
+        self.defence = defence
+        self.hand_to_hand_combat = hand_to_hand_combat
+        self.critic_attack = critical_attack
         self.health = hp
-        self.speed = sp
+        self.agility = agility
         self.y = y
         self.x = x
         self.attacking_distance = 4
@@ -48,24 +47,27 @@ class Actor:
         return 0
 
     def calculate_damage(self):
-        sum = self.strength + self.get_damage_from_weapon() + random.randrange(0, 20) + self.critic_attack;
-        return sum
+        return (self.strength + self.get_damage_from_weapon() + random.randrange(0, 20) +
+                random.randrange(0, 20) * self.critic_attack)
 
     def attack(self, opponent):
         op_health = opponent.check_health()
         damage = self.calculate_damage()
-        if max(0, op_health - damage) == 0:
+        if opponent.agility >= random.randint(0, 100):
+            return True
+        if max(0, op_health - damage + opponent.defence) == 0:
             opponent.change_live_status()
-            #print(f"umiera {opponent.name}")
+            # print(f"umiera {opponent.name}")
             return False
         else:
-            opponent.change_health(-damage)
-            #print(f"oponent {opponent.name} zyje ale ma ", opponent.check_health(), "hp")
+            opponent.change_health(-damage + opponent.defence)
+            # print(f"oponent {opponent.name} zyje ale ma ", opponent.check_health(), "hp")
             return True
 
+
 class Person(Actor):
-    def __init__(self, name, x, y, s, d, h, c, hp, sp):
-        super().__init__(name, x, y, s, d, h, c, hp, sp)
+    def __init__(self, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
+        super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
         self.visibility = 1
         self.character = "@"
 
@@ -74,7 +76,7 @@ class Person(Actor):
 
 
 class Mob(Actor):
-    def __init__(self, type_of_mob, name, x, y, s, d, h, c, hp, sp):
-        super().__init__(name, x, y, s, d, h, c, hp, sp)
+    def __init__(self, type_of_mob, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
+        super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
         self.type_of_mob = type_of_mob
         self.character = "%"
