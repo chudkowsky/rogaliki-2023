@@ -17,18 +17,21 @@ class Quality(Enum):
 
 rare = Quality.RARE
 epic = Quality.EPIC
-
+common = Quality.COMMON
 result = p.map_parser("map_parser_test")
-sword = i.Weapon(2, 2, rare, 2,"miecz")
-armor = i.Armor(1, 2, epic, 5,"zbroja")
-dog = a.Mob("medium", "dog", 3, 1, 8, 5, 8, 7, 100, 5)
-frog = a.Mob("small", "frog", 3, 3, 3, 8, 4, 5, 80, 10)
-hero = a.Person("Mateusz", 3, 2, 9, 10, 10, 8, 80, 10)
-hero2 = a.Person("Piotr", 3, 2, 9, 10, 10, 6, 80, 10)
+sword = i.Weapon(2, 2, rare, 2, "miecz")
+armor = i.Armor(1, 2, common, 5, "zbroja")
+armor2 = i.Armor(1, 2, common, 5, "zbroja")
+dog = a.Mob("medium", "Goblin", 3, 1, 8, 5, 8, 7, 100, 5)
+frog = a.Mob("small", "Gnome", 3, 3, 3, 8, 4, 5, 80, 10)
+hero = a.Person("Horatius", 3, 2, 9, 10, 10, 8, 80, 10)
+hero2 = a.Person("Alaric", 3, 2, 9, 10, 10, 6, 80, 10)
+hero3 = a.Person("Roland", 3, 2, 9, 10, 10, 6, 80, 10)
 mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], [dog, frog])
 mapka1.set_mobs_and_items_on_map()
 hero.add_to_eq(sword)
 hero2.add_to_eq(armor)
+hero3.add_to_eq(armor2)
 
 
 def test_map1():
@@ -60,7 +63,8 @@ test_fight1(hero, hero2, 10000, False)
 test_fight1(hero2, hero, 10000, False)
 test_fight1(hero, dog, 10000, False)
 test_fight1(hero2, frog, 10000, False)
-test_fight1(hero2, dog, 10000, False)
+test_fight1(hero2, hero3, 10000, False)
 print()
 print()
 test_fight1(hero2, hero, 1, True)
+test_map1()

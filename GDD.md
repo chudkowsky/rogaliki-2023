@@ -92,6 +92,10 @@
 ### Walka:
 - Walka z mobami polegajaca na turowym zadawaniu i losowym unikaniu atakow
 - Walka realizowana poprzez podejscie do moba i kliknieciu odpowiedniego kontrola w strone moba
+- Zadawane obrażenia to 
+- składowa siły bohatera + rzut kostka 20k + rzut kostka 5k * ataki krytyczne - umiejetnosci defensywne przeciwnika
+- Atak moze zostać unikniety pod warunkiem ze zwinnosc przeciwnika >= rzut kostka 100k
+- Atak jest blokowany gdy umiejetnosci defensywne są rowne lub większe wartosci ataku
 ### 
 
 

@@ -3,7 +3,8 @@ import random
 
 class Actor:
     def __init__(self, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
-        self.equipment = []
+        self.equipment = [] #{"weapon": None, "chestplate": None, "ring": [], "helmet": None, "shoes": None}
+        self.backpack = []
         self.alive = True
         self.name = name
         self.strength = strength
@@ -42,14 +43,8 @@ class Actor:
             else:
                 print(f"{element.name} already equiped!")
 
-    def get_damage_from_weapon(self):
-        for element in self.equipment:
-            if element.type == "weapon":
-                return element.attack
-        return 0
-
     def calculate_damage(self):
-        return (self.strength + self.get_damage_from_weapon() + random.randrange(0, 20) +
+        return (self.strength + random.randrange(0, 20) +
                 random.randrange(0, 5) * self.critic_attack)
 
     def attack(self, opponent, flag):
