@@ -35,9 +35,9 @@ class Actor:
 
     def apply_equipment_effects(self):
         for element in self.equipment:
-            if isinstance(element, i.Weapon):
+            if element.type == "weapon":
                 self.strength += element.attack
-            if isinstance(element, i.Armor):
+            if element.type == "armor":
                 self.defence += element.defence
 
     def get_damage_from_weapon(self):
@@ -48,20 +48,24 @@ class Actor:
 
     def calculate_damage(self):
         return (self.strength + self.get_damage_from_weapon() + random.randrange(0, 20) +
-                random.randrange(0, 20) * self.critic_attack)
+                random.randrange(0, 10) * self.critic_attack)
 
-    def attack(self, opponent):
+    def attack(self, opponent,flag):
         op_health = opponent.check_health()
         damage = self.calculate_damage()
         if opponent.agility >= random.randint(0, 100):
+            if(flag):
+                print(f"{opponent.name} zrobił unik!")
             return True
         if max(0, op_health - damage + opponent.defence) == 0:
             opponent.change_live_status()
-            # print(f"umiera {opponent.name}")
+            if(flag):
+                print(f"{self.name} zadaje: {damage-opponent.defence} obrażeń, umiera {opponent.name}")
             return False
         else:
             opponent.change_health(-damage + opponent.defence)
-            # print(f"oponent {opponent.name} zyje ale ma ", opponent.check_health(), "hp")
+            if(flag):
+                print(f"{self.name} zadaje: {damage-opponent.defence} obrażeń, {opponent.name} zyje ale ma", opponent.check_health(), "hp")
             return True
 
 

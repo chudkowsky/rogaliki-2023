@@ -12,15 +12,15 @@ class Item:
 class Weapon(Item):
     def __init__(self,x, y, quality, attack):
         super().__init__(x, y,quality)
-        self.attack = attack*quality.value[1]
+        self.attack = attack*self.quality.value[1]
         self.type = "weapon"
 
 
 class Armor(Item):
-    def __init__(self, x, y, defence, type):
-        super().__init__(x, y)
-        self.defence = defence
-        self.type = type
+    def __init__(self, x, y, quality,defence):
+        super().__init__(x, y,quality)
+        self.defence = defence*self.quality.value[1]
+        self.type = "armor"
 
 
 '''

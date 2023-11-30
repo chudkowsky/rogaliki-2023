@@ -1,11 +1,11 @@
-import map as m
-import actor as a
-import item as i
-import map_element as el
-import map_parser as p
-import fight as f
-from enum import Enum
 import copy
+from enum import Enum
+
+import actor as a
+import fight as f
+import item as i
+import map as m
+import map_parser as p
 
 
 class Quality(Enum):
@@ -19,16 +19,18 @@ rare = Quality.RARE
 epic = Quality.EPIC
 
 result = p.map_parser("map_parser_test")
-miecz = i.Weapon(2, 2, rare, 2)
-it2 = i.Item(1, 2, epic)
-dog = a.Mob("medium", "dog", 3, 1, 8, 10, 8, 7, 100, 5)
+sword = i.Weapon(2, 2, rare, 2)
+armor = i.Armor(1, 2, epic, 5)
+dog = a.Mob("medium", "dog", 3, 1, 8, 5, 8, 7, 100, 5)
 frog = a.Mob("small", "frog", 3, 3, 3, 3, 4, 5, 80, 10)
-hero = a.Person("Mateusz", 3, 2, 9, 5, 8, 7, 85, 6)
-hero2 = a.Person("Piotr", 3, 2, 6, 10, 10, 6, 80, 10)
-mapka1 = m.Map(result[0], result[1], result[2], hero, [miecz, it2], [dog, frog])
+hero = a.Person("Mateusz", 3, 2, 9, 10, 10, 6, 80, 10)
+hero2 = a.Person("Piotr", 3, 2, 9, 10, 10, 6, 80, 10)
+mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], [dog, frog])
 mapka1.set_mobs_and_items_on_map()
-hero.add_to_eq(miecz)
+hero.add_to_eq(sword)
 hero.apply_equipment_effects()
+hero2.add_to_eq(armor)
+hero2.apply_equipment_effects()
 
 
 def test_map1():
@@ -36,18 +38,18 @@ def test_map1():
     mapka1.map_printer()
     print(mapka1.map_layout[2][2].item.character)
     f.within_attacking_distance(mapka1)
-    hero.attack(hero2)
+    hero.attack(hero2, 0)
 
 
-def test_fight1(hero1, dog1):
+def test_fight1(hero1, dog1, n, flag):
     mob_wins = 0
     hero_wins = 0
 
-    for it in range(10000):
+    for it in range(n):
         hero_copy = copy.deepcopy(hero1)
         dog_copy = copy.deepcopy(dog1)
 
-        if f.combat(hero_copy, dog_copy):
+        if f.combat(hero_copy, dog_copy, flag):
             mob_wins += 1
         else:
             hero_wins += 1
@@ -55,8 +57,12 @@ def test_fight1(hero1, dog1):
     print(f"{dog1.name} won: {mob_wins} times and {hero1.name} won: {hero_wins} times")
 
 
-test_fight1(hero, frog)
-test_fight1(hero, hero2)
-test_fight1(hero, dog)
-test_fight1(hero2, frog)
-test_fight1(hero2, dog)
+test_fight1(hero, frog, 10000, False)
+test_fight1(hero, hero2, 10000, False)
+test_fight1(hero2, hero, 10000, False)
+test_fight1(hero, dog, 10000, False)
+test_fight1(hero2, frog, 10000, False)
+test_fight1(hero2, dog, 10000, False)
+print()
+print()
+test_fight1(hero2, hero, 1, True)
