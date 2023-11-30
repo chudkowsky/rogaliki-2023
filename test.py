@@ -19,8 +19,8 @@ rare = Quality.RARE
 epic = Quality.EPIC
 
 result = p.map_parser("map_parser_test")
-sword = i.Weapon(2, 2, rare, 2)
-armor = i.Armor(1, 2, epic, 5)
+sword = i.Weapon(2, 2, rare, 2,"miecz")
+armor = i.Armor(1, 2, epic, 5,"zbroja")
 dog = a.Mob("medium", "dog", 3, 1, 8, 5, 8, 7, 100, 5)
 frog = a.Mob("small", "frog", 3, 3, 3, 3, 4, 5, 80, 10)
 hero = a.Person("Mateusz", 3, 2, 9, 10, 10, 6, 80, 10)
@@ -28,9 +28,7 @@ hero2 = a.Person("Piotr", 3, 2, 9, 10, 10, 6, 80, 10)
 mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], [dog, frog])
 mapka1.set_mobs_and_items_on_map()
 hero.add_to_eq(sword)
-hero.apply_equipment_effects()
 hero2.add_to_eq(armor)
-hero2.apply_equipment_effects()
 
 
 def test_map1():
