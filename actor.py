@@ -44,7 +44,7 @@ class Actor:
                 print(f"{element.name} already equiped!")
 
     def calculate_damage(self):
-        return (self.strength + random.randrange(0, 20) +
+        return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat+
                 random.randrange(0, 5) * self.critic_attack)
 
     def attack(self, opponent, flag):
