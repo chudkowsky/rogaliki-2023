@@ -33,7 +33,13 @@
     - wyjsciowy atak
     - zauważalnośc dla duzych stworów 
 
+
+
 ### Ekwipunek dzielący sie na 3 rodzaje jakosci (epicki, dobry, zwyczajny):
+- W ekwipunku postac moze posiadać jedną bron, zbroje, 2 pierścienie
+- W plecku moze miec maksymalnie 10 przedmiotów
+
+
 - Zbroja:
     - normalne:
         - Drewniana zbroja 
