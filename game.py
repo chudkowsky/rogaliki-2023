@@ -1,6 +1,7 @@
 import curses
 
 import actor
+import fight
 import map_parser as p
 import copy
 from enum import Enum
@@ -29,23 +30,17 @@ common = Quality.COMMON
 result = p.map_parser("map_parser_test")
 sword = i.Weapon(2, 2, rare, "miecz",2 )
 armor = i.Armor(1, 2, common, "zbroja",5)
-armor2 = i.Armor(1, 2, common, "zbroja",5 )
 hero = a.Person("Roland", 3, 2, 9, 10, 10, 6, 80, 6)
-hero.add_to_backpack(armor)
-hero.add_to_backpack(sword)
-print(hero.strength)
-print(hero.defence)
-hero.add_to_eq(0)
-hero.add_to_eq(0)
-print(hero.strength)
-print(hero.defence)
+
 
 
 def main(stdscr):
     stdscr.clear()
     stdscr.addstr(1, 1, f"Witaj w mojej grze, o to zasady:\n -poruszasz sie strzałkami\n "
                         f"-aby wyswietlic informacje o mapie nacisnij i \n "
-                        f"-aby przejść do gry nacisnij jakikolwiek klawisz ")
+                        f"-aby przejść do gry nacisnij jakikolwiek klawisz\n "
+                        f"-aby przejrzeć ekwipunek nacisnij klawisz e\n"
+                        f"-aby przejrzec plecak nacisnij b\n")
     stdscr.refresh()
     mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], mobs)
     mapka1.set_mobs_and_items_on_map()
@@ -54,18 +49,30 @@ def main(stdscr):
 
         user_input = stdscr.getkey()
         stdscr.clear()
+        moved = False
         if user_input == "KEY_UP":
             mapka1.move_person(mapka1.actor.x-1, mapka1.actor.y)
+            moved = True
         elif user_input == "KEY_DOWN":
             mapka1.move_person(mapka1.actor.x+1, mapka1.actor.y)
+            moved = True
         elif user_input == "KEY_LEFT":
             mapka1.move_person(mapka1.actor.x, mapka1.actor.y-1)
+            moved = True
         elif user_input == "KEY_RIGHT":
             mapka1.move_person(mapka1.actor.x, mapka1.actor.y+1)
+            moved = True
         elif user_input == "i":
             mapka1.show_info(stdscr)
         elif user_input == "b":
             hero.show_backpack(stdscr)
+        elif user_input == "f":
+            if(mapka1.check_if_item_to_collect()):
+                mapka1.pick_item()
+        if (moved == True):
+            if(mapka1.check_if_item_to_collect()):
+                stdscr.addstr(15, 25, f" Mozliwość podniesienia przedmiotu")
+
         mapka1.map_printer(stdscr)
         stdscr.addstr(15, 15, f"{user_input}")
         stdscr.refresh()

@@ -2,6 +2,7 @@ import curses
 import actor as a
 import map_element as m
 
+
 class Map:
 
     def __init__(self, map_layout, x, y, actor: a.Person, items, mobs):
@@ -28,16 +29,15 @@ class Map:
                     stdscr.addch(i + 2, j + 10, self.actor.character)
                 elif any(element.x == i and element.y == j for element in self.mobs):
                     mob = next(element for element in self.mobs if element.x == i and element.y == j)
-                    stdscr.addch(i + 2, j + 10, mob.character,curses.color_pair(1))
+                    stdscr.addch(i + 2, j + 10, mob.character, curses.color_pair(1))
                 elif any(element.x == i and element.y == j for element in self.items):
                     item = next(element for element in self.items if element.x == i and element.y == j)
-                    stdscr.addch(i + 2, j + 10, item.character,curses.color_pair(3))
+                    stdscr.addch(i + 2, j + 10, item.character, curses.color_pair(3))
                 else:
-                    if(self.map_layout[i][j].placeable):
-                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character,curses.color_pair(1))
+                    if self.map_layout[i][j].placeable:
+                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character, curses.color_pair(1))
                     else:
-                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character,curses.color_pair(2))
-
+                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character, curses.color_pair(2))
 
     def map_check(self, x, y):
         self.stdscr.addstr(self.x + 2, 0, f"Na pozycji: {x}, {y} znajduje się {self.map_layout[x][y].type}")
@@ -51,10 +51,11 @@ class Map:
     def map_delete(self, x, y):
         self.map_layout[x][y] = m.Wall()
 
-    def show_info(self,stdscr):
+    def show_info(self, stdscr):
         item_counter = len(self.items)
         person_counter = len(self.mobs) + 1
-        stdscr.addstr((self.x/4).__floor__(), self.y+(self.y/2).__floor__(), f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
+        stdscr.addstr((self.x / 4).__floor__(), self.y + (self.y / 2).__floor__(),
+                      f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
@@ -75,3 +76,15 @@ class Map:
 
     def map_swap(self, item, x, y):
         self.map_layout[x][y] = item
+
+    def check_if_item_to_collect(self):
+        for elem in self.items:
+            if self.actor.x == elem.x and self.actor.y == elem.y:
+                return True
+
+    def pick_item(self):
+        print(len(self.items))
+        for i in range(len(self.items)):
+            if self.actor.x == self.items[i].x and self.actor.y == self.items[i].y:
+                item = self.items.pop(i)
+                self.actor.add_to_backpack(item)

@@ -9,7 +9,8 @@ class Item:
 
     def apply_item_effect(self, actor):
         raise NotImplementedError
-
+    def take_of_item_effect(self,actor):
+        raise NotImplementedError
 
 class Weapon(Item):
     def __init__(self, x, y,  quality,name , attack):
@@ -19,6 +20,11 @@ class Weapon(Item):
 
     def apply_item_effect(self, actor):
         actor.strength += self.attack
+
+    def take_of_item_effect(self,actor):
+        actor.strength -= self.attack
+
+
 
 
 class Armor(Item):
@@ -30,7 +36,8 @@ class Armor(Item):
     def apply_item_effect(self, actor):
         actor.defence += self.defence
 
-
+    def take_of_item_effect(self,actor):
+        actor.defence -= self.defence
 class Potion(Item):
     def __init__(self, x, y, quality, name, power, ):
         super().__init__(x, y, quality, name)

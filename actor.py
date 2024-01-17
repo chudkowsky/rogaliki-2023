@@ -38,6 +38,7 @@ class Actor:
                 item.apply_item_effect(self)
                 item.put_on = True
 
+
     def calculate_damage(self):
         return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat +
                 random.randrange(0, 5) * self.critic_attack)
@@ -81,6 +82,10 @@ class Person(Actor):
         self.equipment.append(it)
         self.apply_equipment_effects()
 
+    def take_off_from_eq(self,num):
+        self.equipment[num].take_of_item_effect(self)
+        self.equipment[num].put_on = False
+        self.equipment.pop(num)
 
     def show_backpack(self, stdscr):
         pos_x = 5
@@ -91,8 +96,12 @@ class Person(Actor):
             stdscr.addstr(pos_x, pos_y, f"-{elements.name}")
 
 
+
+
 class Mob(Actor):
     def __init__(self, type_of_mob, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
         super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
         self.type_of_mob = type_of_mob
         self.character = "%"
+
+
