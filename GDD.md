@@ -97,5 +97,26 @@
 - Atak moze zostać unikniety pod warunkiem ze zwinnosc przeciwnika >= rzut kostka k100
 - Atak jest blokowany gdy umiejetnosci defensywne są rowne lub większe wartosci ataku
 ### 
+## Spis przeciwnikow:
+#### Azog Plugawy: 
+Posiadając potężną obronę, zdolność krytycznego ataku i wybitną zręczność,
+Azog jest trudnym przeciwnikiem do pokonania, dysponując także dużą ilością punktów życia, 
+ale jego atak jest umiarkowany.
 
+#### Ork: 
+Z ogromną siłą ataku, wysoką obroną i solidnymi punktami życia, 
+Ork jest groźnym przeciwnikiem, jednak ma ograniczoną zręczność i ruch, 
+co jest jego słabością.
 
+#### Zgniły Hobbit: 
+Choć ma umiarkowaną obronę i umiejętności walki, 
+ma stosunkow dużą ilość zdrowia, co czyni go zwinnym przeciwnikiem, 
+potrafiącym zadawać obrażenia z dystansu i unikać ataków.
+
+#### Czarny Pająk: 
+Posiadając imponujące umiejętności obrony i ataku stanowi trudne wyzwanie, Czarny Pająk potrafi zadawać duże obrażenia,
+jest bardzo zwinny, ale posiada mało zdrowia
+
+#### Piekielny karzełek:  
+Posiada małą siłę ataku oraz umiarkowane umiejętności obronne, co sprawia, że jest dosyć latwym celem do pokonania.
+Jednak jego zręczność może mu umozliwić skuteczne unikanie obrażen.

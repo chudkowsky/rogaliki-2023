@@ -3,7 +3,7 @@ import random
 
 class Actor:
     def __init__(self, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
-        self.equipment = [] #{"weapon": None, "chestplate": None, "ring": [], "helmet": None, "shoes": None}
+        self.equipment = []
         self.backpack = []
         self.alive = True
         self.name = name
@@ -33,18 +33,13 @@ class Actor:
         self.health += num
 
     def apply_equipment_effects(self):
-        for element in self.equipment:
-            if not element.put_on:
-                if element.type == "weapon":
-                    self.strength += element.attack
-                if element.type == "armor":
-                    self.defence += element.defence
-                element.put_on = True
-            else:
-                print(f"{element.name} already equiped!")
+        for item in self.equipment:
+            if not item.put_on:
+                item.apply_item_effect(self)
+                item.put_on = True
 
     def calculate_damage(self):
-        return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat+
+        return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat +
                 random.randrange(0, 5) * self.critic_attack)
 
     def attack(self, opponent, flag):
@@ -78,9 +73,22 @@ class Person(Actor):
         self.visibility = 1
         self.character = "@"
 
-    def add_to_eq(self, item):
-        self.equipment.append(item)
+    def add_to_backpack(self, item):
+        self.backpack.append(item)
+
+    def add_to_eq(self, num):
+        it = self.backpack.pop(num)
+        self.equipment.append(it)
         self.apply_equipment_effects()
+
+
+    def show_backpack(self, stdscr):
+        pos_x = 5
+        pos_y = 40
+        stdscr.addstr(pos_x, pos_y, f" W plecaku posiadasz: \n")
+        for elements in self.backpack:
+            pos_x += 1
+            stdscr.addstr(pos_x, pos_y, f"-{elements.name}")
 
 
 class Mob(Actor):

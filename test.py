@@ -1,6 +1,6 @@
 import copy
 from enum import Enum
-
+import mob_pack as pack
 import actor as a
 import fight as f
 import item as i
@@ -15,31 +15,22 @@ class Quality(Enum):
     COMMON = ("common", 1)
 
 
+mob1 = pack.Mob.Hell_Dwarf.value
+mob2 = pack.Mob.Rotten_Hobbit.value
+mob3 = pack.Mob.Ork.value
+mob4 = pack.Mob.Azog.value
+mob5 = pack.Mob.Black_Spider.value
+mobs = [mob1, mob2, mob3, mob4, mob5]
 rare = Quality.RARE
 epic = Quality.EPIC
 common = Quality.COMMON
 result = p.map_parser("map_parser_test")
-sword = i.Weapon(2, 2, rare, 2, "miecz")
-armor = i.Armor(1, 2, common, 5, "zbroja")
-armor2 = i.Armor(1, 2, common, 5, "zbroja")
-dog = a.Mob("medium", "Goblin", 3, 1, 8, 5, 8, 7, 100, 5)
-frog = a.Mob("small", "Gnome", 3, 3, 3, 8, 4, 5, 80, 10)
-hero = a.Person("Horatius", 3, 2, 9, 10, 10, 8, 80, 10)
-hero2 = a.Person("Alaric", 3, 2, 9, 10, 10, 6, 80, 10)
-hero3 = a.Person("Roland", 3, 2, 9, 10, 10, 6, 80, 10)
-mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], [dog, frog])
+sword = i.Weapon(2, 2, rare, "miecz",2 )
+armor = i.Armor(1, 2, common, "zbroja",5 )
+armor2 = i.Armor(1, 2, common, "zbroja",5 )
+hero = a.Person("Roland", 3, 2, 9, 10, 10, 6, 80, 6)
+mapka1 = m.Map(result[0], result[1], result[2], hero, [sword, armor], mobs)
 mapka1.set_mobs_and_items_on_map()
-hero.add_to_eq(sword)
-hero2.add_to_eq(armor)
-hero3.add_to_eq(armor2)
-
-
-def test_map1():
-    mapka1.set_mobs_and_items_on_map()
-    mapka1.map_printer()
-    print(mapka1.map_layout[2][2].item.character)
-    f.within_attacking_distance(mapka1)
-    hero.attack(hero2, 0)
 
 
 def test_fight1(hero1, dog1, n, flag):
@@ -58,13 +49,11 @@ def test_fight1(hero1, dog1, n, flag):
     print(f"{dog1.name} won: {mob_wins} times and {hero1.name} won: {hero_wins} times")
 
 
-test_fight1(hero, frog, 10000, False)
-test_fight1(hero, hero2, 10000, False)
-test_fight1(hero2, hero, 10000, False)
-test_fight1(hero, dog, 10000, False)
-test_fight1(hero2, frog, 10000, False)
-test_fight1(hero2, hero3, 10000, False)
+for mob in mobs:
+    test_fight1(hero, mob, 10000, False)
 print()
 print()
-test_fight1(hero2, hero, 1, True)
-test_map1()
+
+test_fight1(hero, mob1, 1, True)
+
+mapka1.map_printer()
