@@ -26,18 +26,18 @@ class Map:
         for i in range(self.x):
             for j in range(self.y):
                 if self.actor.x == i and self.actor.y == j:
-                    stdscr.addch(i , j , self.actor.character)
+                    stdscr.addch(i, j, self.actor.character)
                 elif any(element.x == i and element.y == j for element in self.mobs):
                     mob = next(element for element in self.mobs if element.x == i and element.y == j)
-                    stdscr.addch(i , j , mob.character, curses.color_pair(1))
+                    stdscr.addch(i, j, mob.character, curses.color_pair(1))
                 elif any(element.x == i and element.y == j for element in self.items):
                     item = next(element for element in self.items if element.x == i and element.y == j)
-                    stdscr.addch(i , j , item.character, curses.color_pair(3))
+                    stdscr.addch(i, j, item.character, curses.color_pair(3))
                 else:
                     if self.map_layout[i][j].placeable:
-                        stdscr.addch(i , j , self.map_layout[i][j].character, curses.color_pair(1))
+                        stdscr.addch(i, j, self.map_layout[i][j].character, curses.color_pair(1))
                     else:
-                        stdscr.addch(i , j , self.map_layout[i][j].character, curses.color_pair(2))
+                        stdscr.addch(i, j, self.map_layout[i][j].character, curses.color_pair(2))
 
     def map_check(self, x, y):
         self.stdscr.addstr(self.x + 2, 0, f"Na pozycji: {x}, {y} znajduje się {self.map_layout[x][y].type}")
@@ -51,10 +51,12 @@ class Map:
     def map_delete(self, x, y):
         self.map_layout[x][y] = m.Wall()
 
-    def show_info(self, stdscr):
+    def show_info(self, stdscr, flag):
         item_counter = len(self.items)
         person_counter = len(self.mobs) + 1
-        stdscr.addstr(f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
+        if flag:
+            stdscr.addstr(f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
+        return person_counter - 1
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
@@ -88,10 +90,16 @@ class Map:
                 item = self.items.pop(i)
                 self.actor.add_to_backpack(item)
 
-    def show_stats(self,stdscr):
+    def show_stats(self, stdscr, counter):
         stdscr.addstr(f"{self.actor.name}\n"
                       f"HP:{self.actor.health}\n"
                       f"STRENGTH:{self.actor.strength}\t"
                       f"DEFENCE:{self.actor.defence}\n"
-                      f"MOBS KILLED:{0}\n")
+                      f"MOBS KILLED:{counter}\n")
 
+    def remove_dead_mobs(self):
+        index = 0
+        for mob in self.mobs:
+            if not mob.alive:
+                self.mobs.pop(index)
+            index += 1
