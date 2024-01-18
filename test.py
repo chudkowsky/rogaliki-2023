@@ -1,4 +1,5 @@
 import copy
+import random
 from enum import Enum
 import mob_pack as pack
 import actor as a
@@ -49,11 +50,11 @@ def test_fight1(hero1, dog1, n, flag):
     print(f"{dog1.name} won: {mob_wins} times and {hero1.name} won: {hero_wins} times")
 
 
-for mob in mobs:
-    test_fight1(hero, mob, 10000, False)
+#for mob in mobs:
+#    test_fight1(hero, mob, 10000, False)
 print()
 print()
 
-test_fight1(hero, mob1, 1, True)
+#test_fight1(hero, mob1, 1, True)
 
-mapka1.map_printer()
+#mapka1.map_printer()

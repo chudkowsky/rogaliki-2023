@@ -19,5 +19,3 @@ def map_parser(directory):
         result.append(tmp.copy())
 
     return [result,len(result),len(result[0])]
-
-

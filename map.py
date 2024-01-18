@@ -1,4 +1,6 @@
 import curses
+import random
+
 import actor as a
 import map_element as m
 
@@ -15,8 +17,22 @@ class Map:
 
     def set_mobs_and_items_on_map(self):
         for element in self.mobs:
+            x = random.randint(0, self.x - 1)
+            y = random.randint(0, self.y - 1)
+            while(not self.if_move_possible(x,y)):
+                x = random.randint(0, self.x - 1)
+                y = random.randint(0, self.y - 1)
+            element.x = x
+            element.y = y
             self.map_layout[element.x][element.y].actor = element
         for element in self.items:
+            x = random.randint(0, self.x - 1)
+            y = random.randint(0, self.y - 1)
+            while (not self.if_move_possible(x, y)):
+                x = random.randint(0, self.x - 1)
+                y = random.randint(0, self.y - 1)
+            element.x = x
+            element.y = y
             self.map_layout[element.x][element.y].item = element
 
     def map_printer(self, stdscr):
@@ -40,7 +56,7 @@ class Map:
                         stdscr.addch(i, j, self.map_layout[i][j].character, curses.color_pair(2))
 
     def map_check(self, x, y):
-        self.stdscr.addstr(self.x + 2, 0, f"Na pozycji: {x}, {y} znajduje się {self.map_layout[x][y].type}")
+        return self.map_layout[x][y].type
 
     def map_check_mobs(self, x, y):
         for element in self.mobs:
@@ -80,20 +96,23 @@ class Map:
 
     def check_if_item_to_collect(self):
         for elem in self.items:
-            if self.actor.x == elem.x and self.actor.y == elem.y:
-                return True
+            if self.actor.x == elem.x:
+                if self.actor.y == elem.y:
+                    return True
+                else:
+                    return False
 
     def pick_item(self):
-        print(len(self.items))
-        for i in range(len(self.items)):
-            if self.actor.x == self.items[i].x and self.actor.y == self.items[i].y:
-                item = self.items.pop(i)
+        items_copy = self.items.copy()
+        for item in items_copy:
+            if self.actor.x == item.x and self.actor.y == item.y:
+                self.items.remove(item)
                 self.actor.add_to_backpack(item)
 
     def show_stats(self, stdscr, counter):
         stdscr.addstr(f"{self.actor.name}\n"
-                      f"HP:{self.actor.health}\n"
-                      f"STRENGTH:{self.actor.strength}\t"
+                      f"HP:{self.actor.health} "
+                      f"STRENGTH:{self.actor.strength} "
                       f"DEFENCE:{self.actor.defence}\n"
                       f"MOBS KILLED:{counter}\n")
 
