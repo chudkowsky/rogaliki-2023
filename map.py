@@ -26,18 +26,18 @@ class Map:
         for i in range(self.x):
             for j in range(self.y):
                 if self.actor.x == i and self.actor.y == j:
-                    stdscr.addch(i + 2, j + 10, self.actor.character)
+                    stdscr.addch(i , j , self.actor.character)
                 elif any(element.x == i and element.y == j for element in self.mobs):
                     mob = next(element for element in self.mobs if element.x == i and element.y == j)
-                    stdscr.addch(i + 2, j + 10, mob.character, curses.color_pair(1))
+                    stdscr.addch(i , j , mob.character, curses.color_pair(1))
                 elif any(element.x == i and element.y == j for element in self.items):
                     item = next(element for element in self.items if element.x == i and element.y == j)
-                    stdscr.addch(i + 2, j + 10, item.character, curses.color_pair(3))
+                    stdscr.addch(i , j , item.character, curses.color_pair(3))
                 else:
                     if self.map_layout[i][j].placeable:
-                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character, curses.color_pair(1))
+                        stdscr.addch(i , j , self.map_layout[i][j].character, curses.color_pair(1))
                     else:
-                        stdscr.addch(i + 2, j + 10, self.map_layout[i][j].character, curses.color_pair(2))
+                        stdscr.addch(i , j , self.map_layout[i][j].character, curses.color_pair(2))
 
     def map_check(self, x, y):
         self.stdscr.addstr(self.x + 2, 0, f"Na pozycji: {x}, {y} znajduje się {self.map_layout[x][y].type}")
@@ -54,8 +54,7 @@ class Map:
     def show_info(self, stdscr):
         item_counter = len(self.items)
         person_counter = len(self.mobs) + 1
-        stdscr.addstr((self.x / 4).__floor__(), self.y + (self.y / 2).__floor__(),
-                      f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
+        stdscr.addstr(f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
@@ -88,3 +87,11 @@ class Map:
             if self.actor.x == self.items[i].x and self.actor.y == self.items[i].y:
                 item = self.items.pop(i)
                 self.actor.add_to_backpack(item)
+
+    def show_stats(self,stdscr):
+        stdscr.addstr(f"{self.actor.name}\n"
+                      f"HP:{self.actor.health}\n"
+                      f"STRENGTH:{self.actor.strength}\t"
+                      f"DEFENCE:{self.actor.defence}\n"
+                      f"MOBS KILLED:{0}\n")
+

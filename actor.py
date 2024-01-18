@@ -15,7 +15,7 @@ class Actor:
         self.agility = agility
         self.y = y
         self.x = x
-        self.attacking_distance = 4
+        self.attacking_distance = 1
 
     def get_name(self):
         return self.name
@@ -37,7 +37,6 @@ class Actor:
             if not item.put_on:
                 item.apply_item_effect(self)
                 item.put_on = True
-
 
     def calculate_damage(self):
         return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat +
@@ -82,20 +81,25 @@ class Person(Actor):
         self.equipment.append(it)
         self.apply_equipment_effects()
 
-    def take_off_from_eq(self,num):
+    def take_off_from_eq(self, num):
         self.equipment[num].take_of_item_effect(self)
         self.equipment[num].put_on = False
         self.equipment.pop(num)
 
     def show_backpack(self, stdscr):
-        pos_x = 5
-        pos_y = 40
-        stdscr.addstr(pos_x, pos_y, f" W plecaku posiadasz: \n")
+        stdscr.addstr(f"W plecaku posiadasz: \n")
+        index = 0
         for elements in self.backpack:
-            pos_x += 1
-            stdscr.addstr(pos_x, pos_y, f"-{elements.name}")
+            stdscr.addstr(f"{index}:{elements.name}\n")
+            index += 1
 
-
+    def show_eq(self, stdscr):
+        stdscr.addstr(f"Oto twój ekwipunek: \n")
+        index = 0
+        for elements in self.equipment:
+            stdscr.addstr(f"{elements.type}:{elements.name}\n")
+            index += 1
+        self.show_backpack(stdscr)
 
 
 class Mob(Actor):
@@ -103,5 +107,3 @@ class Mob(Actor):
         super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
         self.type_of_mob = type_of_mob
         self.character = "%"
-
-

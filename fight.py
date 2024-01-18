@@ -3,18 +3,14 @@ def within_attacking_distance(map):
     attacking_distance = map.actor.attacking_distance
     for i in range(1, 1 + attacking_distance):
         if map.map_check_mobs(player_position[0] + i, player_position[1])[0]:
-            print("W zasięgu walki znajduje się",
-                  map.map_check_mobs(player_position[0] + i, player_position[1])[1].name)
+            return True
         if map.map_check_mobs(player_position[0] - i, player_position[1])[0]:
-            print("W zasięgu walki znajduje się",
-                  map.map_check_mobs(player_position[0] - i, player_position[1] - i)[1].name)
+            return True
         if map.map_check_mobs(player_position[0], player_position[1] + i)[0]:
-            print("W zasięgu walki znajduje się",
-                  map.map_check_mobs(player_position[0], player_position[1] + i)[1].name)
+            return True
         if map.map_check_mobs(player_position[0], player_position[1] - i)[0]:
-            print("W zasięgu walki znajduje się",
-                  map.map_check_mobs(player_position[0], player_position[1] - i)[1].name)
-
+            return True
+    return False
 
 def combat(hero, dog, flag):
     round_num = 1
@@ -23,7 +19,7 @@ def combat(hero, dog, flag):
             print(f"Round {round_num}:")
         hero_attacked = hero.attack(dog, flag)
         if not dog.is_alive():
-            if (flag):
+            if flag:
                 print(f"{dog.name} has been defeated! {hero.name} wins!")
             break
 
