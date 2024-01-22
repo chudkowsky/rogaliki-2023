@@ -44,8 +44,6 @@ class Potion(Item):
         self.power = power * self.quality.value[1]
         self.type = "Potion"
 
-    def drink_potion(self, actor):
-        raise NotImplementedError
 
 
 class HealingPotion(Potion):
@@ -54,7 +52,7 @@ class HealingPotion(Potion):
         self.power = power * self.quality.value[1]
         self.type = "Potion"
 
-    def drink_potion(self, actor):
+    def apply_item_effect(self, actor):
         actor.health += self.power
 
 class PotionOfStrength(Potion):
@@ -63,5 +61,5 @@ class PotionOfStrength(Potion):
         self.power = power * self.quality.value[1]
         self.type = "Potion"
 
-    def drink_potion(self, actor):
+    def apply_item_effect(self, actor):
         actor.strength += self.power

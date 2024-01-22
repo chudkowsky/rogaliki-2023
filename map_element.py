@@ -18,3 +18,9 @@ class Wall(Tile):
         self.type = "wall"
         self.character = "#"
         self.placeable = False
+
+class Anvil(Tile):
+    def __init__(self):
+        super().__init__()
+        self.type = "anvil"
+        self.character = ""

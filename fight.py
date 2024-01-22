@@ -1,21 +1,3 @@
-def within_attacking_distance(map):
-    player_position = (map.actor.x, map.actor.y)
-    attacking_distance = map.actor.attacking_distance
-    for i in range(1, 1 + attacking_distance):
-        if map.map_check_mobs(player_position[0] + i, player_position[1])[0]:
-            elem = map.map_check_mobs(player_position[0] + i, player_position[1])[1]
-            return [True,elem]
-        if map.map_check_mobs(player_position[0] - i, player_position[1])[0]:
-            elem = map.map_check_mobs(player_position[0] - i, player_position[1])[1]
-            return [True,elem]
-        if map.map_check_mobs(player_position[0], player_position[1] + i)[0]:
-            elem = map.map_check_mobs(player_position[0], player_position[1] + i)[1]
-            return [True,elem]
-        if map.map_check_mobs(player_position[0], player_position[1] - i)[0]:
-            elem = map.map_check_mobs(player_position[0], player_position[1] - i)[1]
-            return [True,elem]
-    return [False,None]
-
 def combat(hero, dog, flag):
     round_num = 1
     while hero.is_alive() and dog.is_alive():

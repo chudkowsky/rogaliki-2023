@@ -19,7 +19,7 @@ class Map:
         for element in self.mobs:
             x = random.randint(0, self.x - 1)
             y = random.randint(0, self.y - 1)
-            while(not self.if_move_possible(x,y)):
+            while (not self.if_move_possible(x, y)):
                 x = random.randint(0, self.x - 1)
                 y = random.randint(0, self.y - 1)
             element.x = x
@@ -34,11 +34,20 @@ class Map:
             element.x = x
             element.y = y
             self.map_layout[element.x][element.y].item = element
+        x = random.randint(0, self.x - 1)
+        y = random.randint(0, self.y - 1)
+        while (not self.if_move_possible(x, y)):
+            x = random.randint(0, self.x - 1)
+            y = random.randint(0, self.y - 1)
+        self.actor.x = x
+        self.actor.y = y
 
     def map_printer(self, stdscr):
         curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+        curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
         for i in range(self.x):
             for j in range(self.y):
                 if self.actor.x == i and self.actor.y == j:
@@ -48,18 +57,76 @@ class Map:
                     stdscr.addch(i, j, mob.character, curses.color_pair(1))
                 elif any(element.x == i and element.y == j for element in self.items):
                     item = next(element for element in self.items if element.x == i and element.y == j)
-                    stdscr.addch(i, j, item.character, curses.color_pair(3))
+                    if item.quality.value[1] == 3:
+                        stdscr.addch(i, j, item.character, curses.color_pair(4))
+                    elif item.quality.value[1] == 2:
+                        stdscr.addch(i, j, item.character, curses.color_pair(5))
+                    else:
+                        stdscr.addch(i, j, item.character, curses.color_pair(3))
                 else:
                     if self.map_layout[i][j].placeable:
                         stdscr.addch(i, j, self.map_layout[i][j].character, curses.color_pair(1))
                     else:
                         stdscr.addch(i, j, self.map_layout[i][j].character, curses.color_pair(2))
 
-    def map_check(self, x, y):
-        return self.map_layout[x][y].type
+    def map_printer2(self, stdscr):
+        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+        curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+        curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
+        start_x = max(self.actor.x - 5, 0)
+        end_x = min(self.actor.x + 6, self.x)
+        start_y = max(self.actor.y - 20, 0)
+        end_y = min(self.actor.y + 21, self.y)
+
+        center_x = 5
+        center_y = 10
+
+        for i in range(start_x, end_x):
+            for j in range(start_y, end_y):
+
+                screen_x = i - start_x + center_x
+                screen_y = j - start_y + center_y
+
+                if self.actor.x == i and self.actor.y == j:
+                    stdscr.addch(screen_x, screen_y, self.actor.character)
+                elif any(element.x == i and element.y == j for element in self.mobs):
+                    mob = next(element for element in self.mobs if element.x == i and element.y == j)
+                    stdscr.addch(screen_x, screen_y, mob.character,curses.color_pair(1))
+                elif any(element.x == i and element.y == j for element in self.items):
+                    item = next(element for element in self.items if element.x == i and element.y == j)
+                    if item.quality.value[1] == 3:
+                        stdscr.addch(screen_x, screen_y, item.character, curses.color_pair(4))
+                    elif item.quality.value[1] == 2:
+                        stdscr.addch(screen_x, screen_y, item.character, curses.color_pair(5))
+                    else:
+                        stdscr.addch(screen_x, screen_y, item.character, curses.color_pair(3))
+                else:
+                    if self.map_layout[i][j].placeable:
+                        stdscr.addch(screen_x, screen_y, self.map_layout[i][j].character, curses.color_pair(1))
+                    else:
+                        stdscr.addch(screen_x, screen_y, self.map_layout[i][j].character, curses.color_pair(2))
+
+    def map_check(self, x, y):
+        return self.map_layout[x][y].placeable
+
+    def adjust_mobs_to_lvl(self,lvl,mobs1,mobs2,mobs3):
+        if 0<=lvl<3:
+            self.mobs = mobs1
+        elif 3<=lvl<6:
+            self.mobs = mobs2
+        else:
+            self.mobs = mobs3
     def map_check_mobs(self, x, y):
         for element in self.mobs:
+            if element.x == x and element.y == y:
+                return [True, element]
+        return [False, None]
+
+    def map_check_item(self, x, y):
+        for element in self.items:
             if element.x == x and element.y == y:
                 return [True, element]
         return [False, None]
@@ -109,12 +176,13 @@ class Map:
                 self.items.remove(item)
                 self.actor.add_to_backpack(item)
 
-    def show_stats(self, stdscr, counter):
+    def show_stats(self, stdscr, counter,lvl):
         stdscr.addstr(f"{self.actor.name}\n"
                       f"HP:{self.actor.health} "
                       f"STRENGTH:{self.actor.strength} "
                       f"DEFENCE:{self.actor.defence}\n"
-                      f"MOBS KILLED:{counter}\n")
+                      f"MOBS KILLED:{counter}\n"
+                      f"LVL:{lvl+1}\n")
 
     def remove_dead_mobs(self):
         index = 0
