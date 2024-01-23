@@ -6,21 +6,17 @@ import map as m
 import map_parser as p
 import mob_pack as pack
 import genarate_map as g
+import quality as quality
 
 
-class Quality(Enum):
-    LEGENDARY = ("legendary", 4)
-    EPIC = ("epic", 3)
-    RARE = ("rare", 2)
-    COMMON = ("common", 1)
 
 
 mobs1 = [mob.value for mob in pack.SmallMob]
 mobs2 = [mob.value for mob in pack.MediumMob]
 mobs3 = [mob.value for mob in pack.BigMob]
-rare = Quality.RARE
-epic = Quality.EPIC
-common = Quality.COMMON
+rare = quality.Quality.RARE
+epic = quality.Quality.EPIC
+common = quality.Quality.COMMON
 
 result2 = p.map_parser("map_parser_test2")
 sword = i.Weapon(2, 2, rare, "miecz", 2)
@@ -39,7 +35,7 @@ hero = a.Person("Roland", 3, 2, 9, 10, 10, 6, 800, 6)
 def main(stdscr):
     maps = []
     lvl = 0
-    for j in range(11):
+    for j in range(10):
         maps.append(g.make_rooms(35, 50, 20))
     curses.curs_set(0)  # Hide cursor
     stdscr.clear()
@@ -109,7 +105,7 @@ def main(stdscr):
             lvl += 1
             # zamiana mapy na  nowa
             mapka = m.Map(maps[lvl][0], maps[lvl][1], maps[lvl][2], hero, items, [])
-            mapka.adjust_mobs_to_lvl(lvl, mobs1, mobs2, mobs3)
+            mapka.adjust_mobs_to_lvl(lvl, mobs1.copy(), mobs2.copy(), mobs3.copy())
             mapka.set_mobs_and_items_on_map()
         msg_window.refresh()
 

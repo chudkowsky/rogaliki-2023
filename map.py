@@ -1,6 +1,5 @@
 import curses
 import random
-
 import actor as a
 import map_element as m
 
@@ -114,10 +113,16 @@ class Map:
 
     def adjust_mobs_to_lvl(self,lvl,mobs1,mobs2,mobs3):
         if 0<=lvl<3:
+            for elem in mobs1:
+                elem.alive = True
             self.mobs = mobs1
         elif 3<=lvl<6:
+            for elem in mobs2:
+                elem.alive = True
             self.mobs = mobs2
         else:
+            for elem in mobs3:
+                elem.alive = True
             self.mobs = mobs3
     def map_check_mobs(self, x, y):
         for element in self.mobs:

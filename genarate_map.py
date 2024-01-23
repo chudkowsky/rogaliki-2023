@@ -48,6 +48,13 @@ def make_rooms(x, y, num):
                     result[i][j] = me.Floor()
     connect_rooms(result, list_of_room_centers)
 
+    x1,y1 = list_of_room_centers[0]
+    print(x1,y1)
+    result[x1][y1] = me.Anvil()
+
+    x1, y1= list_of_room_centers[-1]
+    result[x1][y1] = me.Stairs()
+    x
     return [result, x, y]
 
 
@@ -73,3 +80,5 @@ def connect_centers(result, x1, y1, x2, y2):
             for j in range(y1 - 1, y1 + 2):
                 if 0 < i < len(result)-1 and 0 < j < len(result[0])-1:
                     result[i][j] = me.Floor()
+
+make_rooms(40,40,20)

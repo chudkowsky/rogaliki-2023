@@ -38,6 +38,31 @@ class Armor(Item):
 
     def take_of_item_effect(self,actor):
         actor.defence -= self.defence
+
+class Gloves(Item):
+    def __init__(self, x, y, quality, name, hand_to_hand_combat):
+        super().__init__(x, y, quality, name)
+        self.hand_to_hand_combat = hand_to_hand_combat * self.quality.value[1]
+        self.type = "gloves"
+
+    def apply_item_effect(self, actor):
+        actor.hand_to_hand_combat += self.hand_to_hand_combat
+
+    def take_of_item_effect(self,actor):
+        actor.hand_to_hand_combat -= self.hand_to_hand_combat
+
+class Boots(Item):
+    def __init__(self, x, y, quality, name, agility):
+            super().__init__(x, y, quality, name)
+            self.agility = agility* self.quality.value[1]
+            self.type = "Boots"
+
+    def apply_item_effect(self, actor):
+            actor.agility += self.agility
+
+    def take_of_item_effect(self, actor):
+            actor.agility -= self.agility
+
 class Potion(Item):
     def __init__(self, x, y, quality, name, power, ):
         super().__init__(x, y, quality, name)
