@@ -77,7 +77,7 @@ class EpicItems():
 class LegendaryItems():
     sword1 = i.Weapon(3, 3, legendary, "Miecz Legendarnego Bohatera", 3)
     sword2 = i.Weapon(3, 3, legendary, "Klinga Wiecznej Chwały", 3)
-    sword3 = i.Weapon(3, 3, legendary, "Ognisty Miecz Smoka", 3)
+    sword3 = i.Weapon(3, 3, legendary, "Jurna Włócznia Prastarych", 3)
     gloves1 = i.Gloves(3, 3, legendary, "Rękawice Nieśmiertelnej Mocy", 3)
     gloves2 = i.Gloves(3, 3, legendary, "Rękawice Mistrza Cienia", 3)
     boots1 = i.Boots(3, 3, legendary, "Buty Błyskawicznego Skradania", 3)
@@ -86,6 +86,23 @@ class LegendaryItems():
     armor2 = i.Armor(2, 3, legendary, "Peleryna Zaklinacza Burz", 6)
     armor3 = i.Armor(2, 3, legendary, "Płomienna kolczuga Balrogów", 6)
 
+
+class Potions():
+    healing_potion1 = i.HealingPotion(3, 3, common, "Lecznicza mikstura o zapachu mięty", 15)
+    healing_potion2 = i.HealingPotion(2, 2, common, "Lecznicza słodko pachnąca mikstura", 10)
+    healing_potion3 = i.HealingPotion(5, 1, rare, "Lecznicza ognista mikstura", 25)
+    healing_potion4 = i.HealingPotion(4, 4, common, "Lecznicza mikstura o kwiatowym aromacie", 20)
+    healing_potion5 = i.HealingPotion(1, 5, legendary, "Lecznicza nieziemska mikstura", 50)
+    healing_potion6 = i.HealingPotion(2, 3, common, "Lecznicza orzeźwiająca mikstura", 12)
+    healing_potion7 = i.HealingPotion(4, 2, rare, "Lecznicza mikstura z nutą cytrusową", 18)
+
+    potion_of_strength1 = i.PotionOfStrength(3, 3, common, "Siła przodków hobbitów", 19)
+
+# class BlacksmithBooks():
+#     raise NotImplementedError
+#
+# class MagicRings():
+#     raise NotImplementedError
 def generate_random_items(item_class, num_items):
     items = []
     item_instances = [item for item in vars(item_class).values() if isinstance(item, i.Item)]
@@ -116,7 +133,6 @@ def generate_combined_items(num_items,common_ratio,rare_ratio,epic_ratio,legenda
 
 def items_for_each_lvl():
     result = []
-    tmp = []
     c = 0.4
     r = 0.3
     e = 0.1

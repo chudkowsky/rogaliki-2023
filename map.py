@@ -15,6 +15,9 @@ class Map:
         self.mobs = mobs
 
     def set_mobs_and_items_on_map(self):
+        for i in range(int(len(self.items)/2)):
+            self.mobs[i].equipment.append(self.items.pop(i))
+            self.mobs[i].equipment[0].apply_item_effect(self.mobs[i])
         for element in self.mobs:
             x = random.randint(0, self.x - 1)
             y = random.randint(0, self.y - 1)
@@ -85,10 +88,10 @@ class Map:
 
         for i in range(start_x, end_x):
             for j in range(start_y, end_y):
-
                 screen_x = i - start_x + center_x
                 screen_y = j - start_y + center_y
-
+                if (i == end_y-1):
+                    stdscr.addch(screen_x,screen_y,"#",curses.color_pair(3))
                 if self.actor.x == i and self.actor.y == j:
                     stdscr.addch(screen_x, screen_y, self.actor.character)
                 elif any(element.x == i and element.y == j for element in self.mobs):
@@ -109,7 +112,7 @@ class Map:
                         stdscr.addch(screen_x, screen_y, self.map_layout[i][j].character, curses.color_pair(2))
 
     def map_check(self, x, y):
-        return self.map_layout[x][y].placeable
+        return self.map_layout[x][y].type
 
     def adjust_mobs_to_lvl(self,lvl,mobs1,mobs2,mobs3):
         if 0<=lvl<3:
@@ -141,10 +144,10 @@ class Map:
 
     def show_info(self, stdscr, flag):
         item_counter = len(self.items)
-        person_counter = len(self.mobs) + 1
+        person_counter = len(self.mobs)
         if flag:
-            stdscr.addstr(f"Na mapie liczba przedmiotów to: {item_counter}, liczba postaci to: {person_counter}")
-        return person_counter - 1
+            stdscr.addstr(f"Na mapie liczba przedmiotów to: {item_counter}, liczba potworów to: {person_counter}")
+        return person_counter
 
     def if_move_possible(self, x2, y2):
         for elements in self.mobs:
@@ -163,9 +166,8 @@ class Map:
         else:
             print("move not possible")
 
-    def map_swap(self, item, x, y):
-        self.map_layout[x][y] = item
-
+    def map_swap(self, item):
+        self.items.append(item)
     def check_if_item_to_collect(self):
         for elem in self.items:
             if self.actor.x == elem.x:
@@ -186,8 +188,11 @@ class Map:
                       f"HP:{self.actor.health} "
                       f"STRENGTH:{self.actor.strength} "
                       f"DEFENCE:{self.actor.defence}\n"
+                      f"H2HCOMBAT: {self.actor.hand_to_hand_combat} "
+                      f"AGILITY: {self.actor.agility} \n"
                       f"MOBS KILLED:{counter}\n"
-                      f"LVL:{lvl+1}\n")
+                      f"LVL:{lvl+1}\n"
+                      f"--------------------------------\n")
 
     def remove_dead_mobs(self):
         index = 0

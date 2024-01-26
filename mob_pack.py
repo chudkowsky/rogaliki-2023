@@ -3,9 +3,9 @@ import actor as a
 
 
 class SmallMob(Enum):
-    Rotten_Hobbit = a.Mob("small", "Zgniły Hobbit", 3, 1, 3, 5, 8, 7, 40, 5)
+    Rotten_Hobbit = a.Mob("small", "Zgniły leśnik", 3, 1, 3, 5, 8, 7, 40, 5)
     Hell_Dwarf = a.Mob("small", "Piekielny karzeł", 8, 3, 3, 8, 4, 5, 40, 10)
-    Ork = a.Mob("small", "Ork", 2, 9, 4, 10, 3, 10, 30, 2)
+    Ork = a.Mob("small", "Cabrioletton", 2, 9, 4, 10, 3, 10, 30, 2)
     Black_Spider = a.Mob("small", "Czarny Pająk", 3, 2, 4, 10, 10, 8, 50, 10)
     Azog = a.Mob("small", "Azog Plugawy", 3, 5, 5, 10, 15, 10, 60, 10)
 
@@ -18,7 +18,7 @@ class MediumMob(Enum):
 
 class BigMob(Enum):
     Huge_Orc = a.Mob("big", "Wielki Ork", 4, 10, 8, 8, 4, 7, 150, 8)
-    Fire_Giant = a.Mob("big", "Ognisty Olbrzym", 3, 18, 18, 7, 3, 8, 300, 4)
+    Fire_Giant = a.Mob("big", "Upadły Książe Targon", 3, 18, 18, 7, 3, 8, 300, 4)
     Hydra = a.Mob("big", "Hydra", 2, 20, 20, 10, 5, 15, 400, 6)
     Demon_Lord = a.Mob("big", "Władca Demonów", 5, 25, 25, 12, 8, 20, 500, 10)
     Ancient_Dragon = a.Mob("big", "Starożytny Smok", 2, 30, 30, 15, 10, 25, 600, 12)

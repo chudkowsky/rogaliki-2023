@@ -49,12 +49,16 @@ def make_rooms(x, y, num):
     connect_rooms(result, list_of_room_centers)
 
     x1,y1 = list_of_room_centers[0]
-    print(x1,y1)
+
+    while not (0<x1<x and 0<y1<y and result[x1][y1].placeable == True ):
+        x1,y1 = random.randint(0,x),random.randint(0,y)
     result[x1][y1] = me.Anvil()
 
-    x1, y1= list_of_room_centers[-1]
+    x1, y1 = list_of_room_centers[-1]
+
+    while not (0 < x1 < x-1 and 0 < y1 < y-1 and result[x1][y1].placeable == True ):
+        x1, y1 = random.randint(0, x), random.randint(0, y)
     result[x1][y1] = me.Stairs()
-    x
     return [result, x, y]
 
 

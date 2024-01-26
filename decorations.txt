@@ -1,0 +1,31 @@
+
+                     __  __  ___  ____  ___    _
+                    |  \/  |/ _ \|  _ \|_ _|  / \
+                    | |\/| | | | | |_) || |  / _ \
+                    | |  | | |_| |  _ < | | / ___ \
+                    |_|  |_|\___/|_| \_\___/_/   \_\
+  /\                                                               /\
+ /  \                                                             /  \
+/ /\ \          Witaj w grze MORIA, oto zasady:                  / /\ \
+\ \/ /       - Poruszaj się strzałkami:                          \ \/ /
+ \ \/        - Aby wyświetlić informacje o mapie, naciśnij i      \ \/
+ /\ \        - Aby przejść do gry, naciśnij dowolny klawisz       /\ \
+ \ \/        - Aby przejrzeć ekwipunek, naciśnij e                \ \/
+ /\ \        - Aby przejrzeć plecak, naciśnij b                   /\ \
+ \ \/        - Aby podnieść przedmiot z mapy, naciśnij f          \ \/
+ /\ \        - Aby założyć przedmiot z ekwipunku, naciśnij e,     /\ \
+/ /\ \         a następnie podaj numer przedmiotu                / /\ \
+\ \ \/                                                           \ \ \/
+/\ \ \                                                           /\ \ \
+\ \/ /                                                           \ \/ /
+ \ \/                                                             \ \/
+ /\ \                                                             /\ \
+ \ \/                                                             \ \/
+ /\ \                                                             /\ \
+ \ \/                                                             \ \/
+ /\ \                                                             /\ \
+/ /\ \                                                           / /\ \
+\ \/ /                                                           \ \/ /
+ \  /                                                             \  /
+  \/                                                               \/
+                    

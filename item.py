@@ -15,14 +15,15 @@ class Item:
 class Weapon(Item):
     def __init__(self, x, y,  quality,name , attack):
         super().__init__(x, y, quality,name, )
-        self.attack = attack * self.quality.value[1]
+        self.power = attack * self.quality.value[1]
         self.type = "weapon"
 
+
     def apply_item_effect(self, actor):
-        actor.strength += self.attack
+        actor.strength += self.power
 
     def take_of_item_effect(self,actor):
-        actor.strength -= self.attack
+        actor.strength -= self.power
 
 
 
@@ -30,38 +31,38 @@ class Weapon(Item):
 class Armor(Item):
     def __init__(self, x, y, quality, name, defence):
         super().__init__(x, y, quality, name)
-        self.defence = defence * self.quality.value[1]
+        self.power = defence * self.quality.value[1]
         self.type = "armor"
 
     def apply_item_effect(self, actor):
-        actor.defence += self.defence
+        actor.defence += self.power
 
     def take_of_item_effect(self,actor):
-        actor.defence -= self.defence
+        actor.defence -= self.power
 
 class Gloves(Item):
     def __init__(self, x, y, quality, name, hand_to_hand_combat):
         super().__init__(x, y, quality, name)
-        self.hand_to_hand_combat = hand_to_hand_combat * self.quality.value[1]
+        self.power = hand_to_hand_combat * self.quality.value[1]
         self.type = "gloves"
 
     def apply_item_effect(self, actor):
-        actor.hand_to_hand_combat += self.hand_to_hand_combat
+        actor.hand_to_hand_combat += self.power
 
     def take_of_item_effect(self,actor):
-        actor.hand_to_hand_combat -= self.hand_to_hand_combat
+        actor.hand_to_hand_combat -= self.power
 
 class Boots(Item):
     def __init__(self, x, y, quality, name, agility):
             super().__init__(x, y, quality, name)
-            self.agility = agility* self.quality.value[1]
+            self.power = agility* self.quality.value[1]
             self.type = "Boots"
 
     def apply_item_effect(self, actor):
-            actor.agility += self.agility
+            actor.agility += self.power
 
     def take_of_item_effect(self, actor):
-            actor.agility -= self.agility
+            actor.agility -= self.power
 
 class Potion(Item):
     def __init__(self, x, y, quality, name, power, ):

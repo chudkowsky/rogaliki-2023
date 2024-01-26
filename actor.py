@@ -23,8 +23,23 @@ class Actor:
     def check_health(self):
         return self.health
 
-    def change_live_status(self):
+
+    def change_live_status(self,map):
+        x = self.x
+        y = self.y
+        item = self.drop_eq_when_died()
+        if(item != None):
+            item.y = y
+            item.x = x
+            map.items.append(item)
         self.alive = False
+
+    def drop_eq_when_died(self):
+        if self.equipment:
+            self.equipment[0].take_of_item_effect(self)
+            return self.equipment.pop(0)
+        else:
+            return None
 
     def is_alive(self):
         return self.alive
@@ -42,7 +57,7 @@ class Actor:
         return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat +
                 random.randrange(0, 5) * self.critic_attack)
 
-    def attack(self, opponent, flag, sdscr):
+    def attack(self, opponent, flag, sdscr,map):
         op_health = opponent.check_health()
         damage = self.calculate_damage() - opponent.defence
         if opponent.agility >= random.randint(0, 100):
@@ -50,7 +65,7 @@ class Actor:
                 sdscr.addstr(f"{opponent.name} zrobił unik!\n")
             return True
         if max(0, op_health - damage) == 0:
-            opponent.change_live_status()
+            opponent.change_live_status(map)
             if flag:
                 sdscr.addstr(f"{self.name} zadaje: {damage} obrażeń, umiera {opponent.name}\n")
             return False
@@ -93,23 +108,31 @@ class Person(Actor):
         self.add_to_backpack(self.equipment.pop(num))
 
     def show_backpack(self, stdscr):
-        stdscr.addstr(f"W plecaku posiadasz: \n")
+        stdscr.addstr(f"W plecaku posiadasz: \n\n")
         index = 0
         for elements in self.backpack:
             stdscr.addstr(f"{index}:{elements.name}\n")
             index += 1
 
     def show_eq(self, stdscr):
-        stdscr.addstr(f"Oto twój ekwipunek: \n")
-        index = 0
-        for elements in self.equipment:
-            stdscr.addstr(f"{elements.type}:{elements.name}\n")
-            index += 1
+        equipment_types = {"armor": False, "weapon": False, "gloves": False, "boots": False}
+
+        stdscr.addstr("Oto twój ekwipunek: \n\n")
+
+        for element in self.equipment:
+            equipment_types[element.type] = True
+            stdscr.addstr(f"{element.type.capitalize()}:{element.name}:{element.power}+ \n")
+
+        for equipment_type, is_empty in equipment_types.items():
+            if not is_empty:
+                stdscr.addstr(f"{equipment_type.capitalize()} : empty\n")
+
+        stdscr.addstr("\n")
         self.show_backpack(stdscr)
 
     def equipment_display(self, msg_window, stdscr):
         self.show_eq(msg_window)
-        msg_window.addstr("Aby założyć przedmiot podaj jego numer!\n")
+        msg_window.addstr("\nAby założyć przedmiot podaj jego numer!\n")
         msg_window.refresh()
         response = stdscr.getkey()
         if response != '\x1b':
@@ -140,22 +163,53 @@ class Person(Actor):
     def within_attacking_distance(self, map):
         player_position = (map.actor.x, map.actor.y)
         attacking_distance = map.actor.attacking_distance
+        opponents = []
+
         for i in range(1, 1 + attacking_distance):
             if map.map_check_mobs(player_position[0] + i, player_position[1])[0]:
                 elem = map.map_check_mobs(player_position[0] + i, player_position[1])[1]
-                return [True, elem]
+                opponents.append((elem,"down"))
+
             if map.map_check_mobs(player_position[0] - i, player_position[1])[0]:
                 elem = map.map_check_mobs(player_position[0] - i, player_position[1])[1]
-                return [True, elem]
+                opponents.append((elem,"up"))
+
             if map.map_check_mobs(player_position[0], player_position[1] + i)[0]:
                 elem = map.map_check_mobs(player_position[0], player_position[1] + i)[1]
-                return [True, elem]
+                opponents.append((elem,"right"))
+
             if map.map_check_mobs(player_position[0], player_position[1] - i)[0]:
                 elem = map.map_check_mobs(player_position[0], player_position[1] - i)[1]
-                return [True, elem]
-        return [False, None]
+                opponents.append((elem,"left"))
 
-
+        if opponents:
+            return [True, opponents]
+        else:
+            return [False, None]
+    def attack_with_key(self,mapka,mobs_killed,msg_window,direction):
+        tmp = mapka.actor.within_attacking_distance(mapka)
+        if tmp[0]:
+            for elem in tmp[1]:
+                if direction == "down":
+                    if elem[1] == "down":
+                        if not (mapka.actor.attack(elem[0], 1, msg_window, mapka)):
+                            mobs_killed += 1
+                        msg_window.refresh()
+                elif direction == "up":
+                    if elem[1] == "up":
+                        if not (mapka.actor.attack(elem[0], 1, msg_window, mapka)):
+                            mobs_killed += 1
+                        msg_window.refresh()
+                elif direction == "left":
+                    if elem[1] == "left":
+                        if not (mapka.actor.attack(elem[0], 1, msg_window, mapka)):
+                            mobs_killed += 1
+                        msg_window.refresh()
+                elif direction == "right":
+                    if elem[1] == "right":
+                        if not (mapka.actor.attack(elem[0], 1, msg_window, mapka)):
+                            mobs_killed += 1
+                        msg_window.refresh()
 class Mob(Actor):
     def __init__(self, type_of_mob, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
         super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
@@ -184,7 +238,7 @@ class Mob(Actor):
     def make_move(self, mob_attacked, map, msg_window):
         if mob_attacked and self.within_attacking_distance(map):
             # Mob attacks back
-            self.attack(map.actor, 1, msg_window)
+            self.attack(map.actor, 1, msg_window,map)
         else:
             x = random.randint(0, 4)
             match x:

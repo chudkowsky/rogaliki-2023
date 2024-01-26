@@ -19,6 +19,13 @@ class Wall(Tile):
         self.character = "#"
         self.placeable = False
 
+class Traces(Tile):
+    def __init__(self):
+        super().__init__()
+        self.type = "trace"
+        self.character = "."
+        self.placeable = True
+        self.counter = 5
 
 class Anvil(Tile):
     def __init__(self):
