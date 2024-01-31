@@ -30,13 +30,14 @@ class Actor:
         self.hand_to_hand_combat += 3
         self.critic_attack += 3
         self.agility += 3
-        self.lvl+=1
+        self.lvl += 1
         self.health = 100
-    def change_live_status(self,map):
+
+    def change_live_status(self, map):
         x = self.x
         y = self.y
         item = self.drop_eq_when_died()
-        if(item != None):
+        if (item != None):
             item.y = y
             item.x = x
             map.items.append(item)
@@ -65,7 +66,7 @@ class Actor:
         return (self.strength + random.randrange(0, 20) + self.hand_to_hand_combat +
                 random.randrange(0, 5) * self.critic_attack)
 
-    def attack(self, opponent, flag, sdscr,map):
+    def attack(self, opponent, flag, sdscr, map):
         op_health = opponent.check_health()
         damage = self.calculate_damage() - opponent.defence
         if opponent.agility >= random.randint(0, 100):
@@ -119,7 +120,7 @@ class Person(Actor):
         stdscr.addstr(f"W plecaku posiadasz: \n\n")
         index = 0
         for elements in self.backpack:
-            stdscr.addstr(f"{index}:{elements.name}\n")
+            stdscr.addstr(f"{index}:{elements.name}:{elements.power}\n")
             index += 1
 
     def show_eq(self, stdscr):
@@ -167,7 +168,6 @@ class Person(Actor):
         else:
             msg_window.refresh()
 
-
     def within_attacking_distance(self, map):
         player_position = (map.actor.x, map.actor.y)
         attacking_distance = map.actor.attacking_distance
@@ -176,25 +176,26 @@ class Person(Actor):
         for i in range(1, 1 + attacking_distance):
             if map.map_check_mobs(player_position[0] + i, player_position[1])[0]:
                 elem = map.map_check_mobs(player_position[0] + i, player_position[1])[1]
-                opponents.append((elem,"down"))
+                opponents.append((elem, "down"))
 
             if map.map_check_mobs(player_position[0] - i, player_position[1])[0]:
                 elem = map.map_check_mobs(player_position[0] - i, player_position[1])[1]
-                opponents.append((elem,"up"))
+                opponents.append((elem, "up"))
 
             if map.map_check_mobs(player_position[0], player_position[1] + i)[0]:
                 elem = map.map_check_mobs(player_position[0], player_position[1] + i)[1]
-                opponents.append((elem,"right"))
+                opponents.append((elem, "right"))
 
             if map.map_check_mobs(player_position[0], player_position[1] - i)[0]:
                 elem = map.map_check_mobs(player_position[0], player_position[1] - i)[1]
-                opponents.append((elem,"left"))
+                opponents.append((elem, "left"))
 
         if opponents:
             return [True, opponents]
         else:
             return [False, None]
-    def attack_with_key(self,mapka,mobs_killed,msg_window,direction):
+
+    def attack_with_key(self, mapka, mobs_killed, msg_window, direction):
         tmp = mapka.actor.within_attacking_distance(mapka)
         if tmp[0]:
             for elem in tmp[1]:
@@ -220,6 +221,8 @@ class Person(Actor):
 
                         msg_window.refresh()
         return mobs_killed
+
+
 class Mob(Actor):
     def __init__(self, type_of_mob, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
         super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
@@ -228,6 +231,7 @@ class Mob(Actor):
         self.health_copy = hp
         self.vision = 5
         self.last_known_player_pos = None
+
     def within_attacking_distance(self, map):
         player_position = (map.actor.x, map.actor.y)
         attacking_distance = 1
@@ -237,6 +241,7 @@ class Mob(Actor):
             if player_position[1] == self.y and abs(player_position[0] - self.x) <= attacking_distance:
                 return True
         return False
+
     def within_the_vision(self, map):
         player_position = (map.actor.x, map.actor.y)
         vision = self.vision
@@ -289,7 +294,3 @@ class Mob(Actor):
                 self.move_mob(self.x + 1 if dx > 0 else self.x - 1, self.y, map)
             else:
                 self.move_mob(self.x, self.y + 1 if dy > 0 else self.y - 1, map)
-
-
-
-

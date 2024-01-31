@@ -1,5 +1,5 @@
 from enum import Enum
-import actor as a
+from actor_d import actor as a
 
 
 class SmallMob(Enum):
@@ -9,12 +9,14 @@ class SmallMob(Enum):
     Black_Spider = a.Mob("small", "Czarny Pająk", 3, 2, 4, 7, 7, 8, 50, 5)
     Azog = a.Mob("small", "Jaskiniowy Goblin", 3, 5, 5, 5, 6, 10, 60, 5)
 
+
 class MediumMob(Enum):
     Goblin = a.Mob("medium", "Goblin", 5, 5, 6, 7, 4, 6, 60, 8)
-    Troll = a.Mob("medium", "Troll", 1, 12, 12, 3 , 2, 5, 200, 1)
+    Troll = a.Mob("medium", "Troll", 1, 12, 12, 3, 2, 5, 200, 1)
     Dark_Wizard = a.Mob("medium", "Ciemny Czarodziej", 6, 8, 4, 9, 12, 10, 120, 7)
     Ice_Dragon = a.Mob("medium", "Lodowy Smok", 1, 15, 15, 8, 6, 12, 250, 5)
     Undead_Knight = a.Mob("medium", "Nieumarły Rycerz", 7, 7, 10, 5, 8, 9, 180, 6)
+
 
 class BigMob(Enum):
     Huge_Orc = a.Mob("big", "Wielki Ork", 4, 10, 8, 8, 4, 7, 150, 8)

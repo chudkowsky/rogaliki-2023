@@ -19,6 +19,7 @@ class Wall(Tile):
         self.character = "#"
         self.placeable = False
 
+
 class Traces(Tile):
     def __init__(self):
         super().__init__()
@@ -27,14 +28,17 @@ class Traces(Tile):
         self.placeable = True
         self.counter = 5
 
+
 class Anvil(Tile):
     def __init__(self):
         super().__init__()
         self.type = "anvil"
         self.character = "v"
         self.placeable = False
+
     def use_anvil(self, item, book):
         item.quality = item.quality.value[1] + 1
+
 
 class Stairs(Tile):
     def __init__(self):

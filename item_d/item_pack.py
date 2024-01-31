@@ -1,8 +1,8 @@
-from enum import Enum
-import random
 
-import item as i
-import quality as q
+import random
+from item_d import item as i
+from item_d import quality as q
+
 
 rare = q.Quality.RARE
 epic = q.Quality.EPIC

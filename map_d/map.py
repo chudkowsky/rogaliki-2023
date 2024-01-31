@@ -1,7 +1,7 @@
 import curses
 import random
-import actor as a
-import map_element as m
+from actor_d import actor as a
+from map_d import map_element as m
 
 
 class Map:
@@ -15,14 +15,14 @@ class Map:
         self.mobs = mobs
 
     def set_mobs_and_items_on_map(self):
-        for i in range(int(len(self.items)/2)):
-            if( self.items[i].type == 'potion' ):
+        for i in range(int(len(self.items) / 2)):
+            if (self.items[i].type == 'potion'):
                 self.mobs[i].equipment.append(self.items.pop(i))
                 self.mobs[i].equipment[0].apply_item_effect(self.mobs[i])
         for element in self.mobs:
             x = random.randint(0, self.x - 1)
             y = random.randint(0, self.y - 1)
-            while (not self.if_move_possible(x, y)):
+            while not self.if_move_possible(x, y):
                 x = random.randint(0, self.x - 1)
                 y = random.randint(0, self.y - 1)
             element.x = x
@@ -91,13 +91,13 @@ class Map:
             for j in range(start_y, end_y):
                 screen_x = i - start_x + center_x
                 screen_y = j - start_y + center_y
-                if (i == end_y-1):
-                    stdscr.addch(screen_x,screen_y,"#",curses.color_pair(3))
+                if (i == end_y - 1):
+                    stdscr.addch(screen_x, screen_y, "#", curses.color_pair(3))
                 if self.actor.x == i and self.actor.y == j:
                     stdscr.addch(screen_x, screen_y, self.actor.character)
                 elif any(element.x == i and element.y == j for element in self.mobs):
                     mob = next(element for element in self.mobs if element.x == i and element.y == j)
-                    stdscr.addch(screen_x, screen_y, mob.character,curses.color_pair(1))
+                    stdscr.addch(screen_x, screen_y, mob.character, curses.color_pair(1))
                 elif any(element.x == i and element.y == j for element in self.items):
                     item = next(element for element in self.items if element.x == i and element.y == j)
                     if item.quality.value[1] == 3:
@@ -115,12 +115,12 @@ class Map:
     def map_check(self, x, y):
         return self.map_layout[x][y].type
 
-    def adjust_mobs_to_lvl(self,lvl,mobs1,mobs2,mobs3):
-        if 0<=lvl<3:
+    def adjust_mobs_to_lvl(self, lvl, mobs1, mobs2, mobs3):
+        if 0 <= lvl < 3:
             for elem in mobs1:
                 elem.alive = True
             self.mobs = mobs1
-        elif 3<=lvl<6:
+        elif 3 <= lvl < 6:
             for elem in mobs2:
                 elem.alive = True
             self.mobs = mobs2
@@ -128,6 +128,7 @@ class Map:
             for elem in mobs3:
                 elem.alive = True
             self.mobs = mobs3
+
     def map_check_mobs(self, x, y):
         for element in self.mobs:
             if element.x == x and element.y == y:
@@ -169,6 +170,7 @@ class Map:
 
     def map_swap(self, item):
         self.items.append(item)
+
     def check_if_item_to_collect(self):
         for elem in self.items:
             if self.actor.x == elem.x:
@@ -197,11 +199,11 @@ class Map:
 
         stdscr.addstr(0, 0, f"{self.actor.name}\n"
                             f"HP:{self.actor.health} "
-                            f"STRENGTH:{self.actor.strength} "
-                            f"DEFENCE:{self.actor.defence}\n"
-                            f"H2HCOMBAT: {self.actor.hand_to_hand_combat} "
-                            f"AGILITY: {self.actor.agility} \n"
-                            f"MOBS KILLED:{counter}\n"
+                            f"Siła:{self.actor.strength} "
+                            f"Defensywa:{self.actor.defence}\n"
+                            f"Walka wręcz: {self.actor.hand_to_hand_combat} "
+                            f"Zwinność: {self.actor.agility} \n"
+                            f"Pokonani przeciwnicy:{counter}\n"
                             f"{progress} "
                             f"LVL:{lvl + 1}\n"
                             f"--------------------------------\n")

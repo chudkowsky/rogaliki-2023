@@ -1,7 +1,6 @@
 import random
 
-import map_element as me
-
+from map_d import map_element as me
 
 
 def generator(x, y):

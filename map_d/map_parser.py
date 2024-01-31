@@ -1,4 +1,4 @@
-import map_element as m
+from map_d import map_element as m
 
 
 def map_parser(directory):
@@ -18,4 +18,4 @@ def map_parser(directory):
     if tmp:
         result.append(tmp.copy())
 
-    return [result,len(result),len(result[0])]
+    return [result, len(result), len(result[0])]
