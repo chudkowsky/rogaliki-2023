@@ -16,8 +16,9 @@ class Map:
 
     def set_mobs_and_items_on_map(self):
         for i in range(int(len(self.items)/2)):
-            self.mobs[i].equipment.append(self.items.pop(i))
-            self.mobs[i].equipment[0].apply_item_effect(self.mobs[i])
+            if( self.items[i].type == 'potion' ):
+                self.mobs[i].equipment.append(self.items.pop(i))
+                self.mobs[i].equipment[0].apply_item_effect(self.mobs[i])
         for element in self.mobs:
             x = random.randint(0, self.x - 1)
             y = random.randint(0, self.y - 1)
@@ -183,16 +184,28 @@ class Map:
                 self.items.remove(item)
                 self.actor.add_to_backpack(item)
 
-    def show_stats(self, stdscr, counter,lvl):
-        stdscr.addstr(f"{self.actor.name}\n"
-                      f"HP:{self.actor.health} "
-                      f"STRENGTH:{self.actor.strength} "
-                      f"DEFENCE:{self.actor.defence}\n"
-                      f"H2HCOMBAT: {self.actor.hand_to_hand_combat} "
-                      f"AGILITY: {self.actor.agility} \n"
-                      f"MOBS KILLED:{counter}\n"
-                      f"LVL:{lvl+1}\n"
-                      f"--------------------------------\n")
+    def show_stats(self, stdscr, counter, lvl):
+
+        black = "."
+        white = "#"
+        progress = ""
+        for i in range(5):
+            if not i < counter:
+                progress += black
+            else:
+                progress += white
+
+        stdscr.addstr(0, 0, f"{self.actor.name}\n"
+                            f"HP:{self.actor.health} "
+                            f"STRENGTH:{self.actor.strength} "
+                            f"DEFENCE:{self.actor.defence}\n"
+                            f"H2HCOMBAT: {self.actor.hand_to_hand_combat} "
+                            f"AGILITY: {self.actor.agility} \n"
+                            f"MOBS KILLED:{counter}\n"
+                            f"{progress} "
+                            f"LVL:{lvl + 1}\n"
+                            f"--------------------------------\n")
+        stdscr.refresh()  # Refresh the screen to display the changes
 
     def remove_dead_mobs(self):
         index = 0

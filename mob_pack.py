@@ -6,12 +6,12 @@ class SmallMob(Enum):
     Rotten_Hobbit = a.Mob("small", "Zgniły leśnik", 3, 1, 3, 5, 8, 7, 40, 5)
     Hell_Dwarf = a.Mob("small", "Piekielny karzeł", 8, 3, 3, 8, 4, 5, 40, 10)
     Ork = a.Mob("small", "Cabrioletton", 2, 9, 4, 10, 3, 10, 30, 2)
-    Black_Spider = a.Mob("small", "Czarny Pająk", 3, 2, 4, 10, 10, 8, 50, 10)
-    Azog = a.Mob("small", "Azog Plugawy", 3, 5, 5, 10, 15, 10, 60, 10)
+    Black_Spider = a.Mob("small", "Czarny Pająk", 3, 2, 4, 7, 7, 8, 50, 5)
+    Azog = a.Mob("small", "Jaskiniowy Goblin", 3, 5, 5, 5, 6, 10, 60, 5)
 
 class MediumMob(Enum):
     Goblin = a.Mob("medium", "Goblin", 5, 5, 6, 7, 4, 6, 60, 8)
-    Troll = a.Mob("medium", "Troll", 1, 12, 12, 6, 2, 5, 200, 3)
+    Troll = a.Mob("medium", "Troll", 1, 12, 12, 3 , 2, 5, 200, 1)
     Dark_Wizard = a.Mob("medium", "Ciemny Czarodziej", 6, 8, 4, 9, 12, 10, 120, 7)
     Ice_Dragon = a.Mob("medium", "Lodowy Smok", 1, 15, 15, 8, 6, 12, 250, 5)
     Undead_Knight = a.Mob("medium", "Nieumarły Rycerz", 7, 7, 10, 5, 8, 9, 180, 6)

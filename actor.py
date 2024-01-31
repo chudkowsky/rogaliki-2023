@@ -16,6 +16,7 @@ class Actor:
         self.y = y
         self.x = x
         self.attacking_distance = 1
+        self.lvl = 1
 
     def get_name(self):
         return self.name
@@ -23,7 +24,14 @@ class Actor:
     def check_health(self):
         return self.health
 
-
+    def level_up(self):
+        self.strength += 3
+        self.defence += 3
+        self.hand_to_hand_combat += 3
+        self.critic_attack += 3
+        self.agility += 3
+        self.lvl+=1
+        self.health = 100
     def change_live_status(self,map):
         x = self.x
         y = self.y
@@ -73,13 +81,13 @@ class Actor:
             if damage < 0:
                 if flag:
                     sdscr.addstr("Atak został zablokowany\n")
-                    return True
+                return True
             else:
                 opponent.change_health(-damage)
                 if flag:
                     sdscr.addstr(f"{self.name} zadaje: {damage} obrażeń, {opponent.name} zyje ale ma "
                                  f"{opponent.check_health()} hp\n")
-            return True
+                return True
 
 
 class Person(Actor):
@@ -128,10 +136,9 @@ class Person(Actor):
                 stdscr.addstr(f"{equipment_type.capitalize()} : empty\n")
 
         stdscr.addstr("\n")
-        self.show_backpack(stdscr)
 
     def equipment_display(self, msg_window, stdscr):
-        self.show_eq(msg_window)
+        self.show_backpack(msg_window)
         msg_window.addstr("\nAby założyć przedmiot podaj jego numer!\n")
         msg_window.refresh()
         response = stdscr.getkey()
@@ -144,9 +151,9 @@ class Person(Actor):
                     confirm = stdscr.getkey()
 
                     if confirm == "\n":  # Check if Enter is pressed
-                        if (self.backpack[item_number].type != "Potion"):
+                        if (self.backpack[item_number].type != "potion"):
                             self.add_to_eq(item_number)
-                            msg_window.addstr(f"Przedmiot dodany do ekwipunku. ")
+                            msg_window.addstr(f"Przedmiot dodany do ekwipunku. \n")
                         else:
                             self.backpack[item_number].apply_item_effect(self)
                             self.backpack.pop(item_number)
@@ -159,6 +166,7 @@ class Person(Actor):
                 msg_window.addstr("Niepoprawny format. Podaj numer przedmiotu. ")
         else:
             msg_window.refresh()
+
 
     def within_attacking_distance(self, map):
         player_position = (map.actor.x, map.actor.y)
@@ -209,14 +217,17 @@ class Person(Actor):
                     if elem[1] == "right":
                         if not (mapka.actor.attack(elem[0], 1, msg_window, mapka)):
                             mobs_killed += 1
+
                         msg_window.refresh()
+        return mobs_killed
 class Mob(Actor):
     def __init__(self, type_of_mob, name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility):
         super().__init__(name, x, y, strength, defence, hand_to_hand_combat, critical_attack, hp, agility)
         self.type_of_mob = type_of_mob
         self.character = "%"
         self.health_copy = hp
-
+        self.vision = 5
+        self.last_known_player_pos = None
     def within_attacking_distance(self, map):
         player_position = (map.actor.x, map.actor.y)
         attacking_distance = 1
@@ -224,6 +235,15 @@ class Mob(Actor):
             if player_position[0] == self.x and abs(player_position[1] - self.y) <= attacking_distance:
                 return True
             if player_position[1] == self.y and abs(player_position[0] - self.x) <= attacking_distance:
+                return True
+        return False
+    def within_the_vision(self, map):
+        player_position = (map.actor.x, map.actor.y)
+        vision = self.vision
+        for i in range(1, 2):
+            if player_position[0] == self.x and abs(player_position[1] - self.y) <= vision:
+                return True
+            if player_position[1] == self.y and abs(player_position[0] - self.x) <= vision:
                 return True
         return False
 
@@ -235,18 +255,41 @@ class Mob(Actor):
         else:
             print("move not possible")
 
-    def make_move(self, mob_attacked, map, msg_window):
-        if mob_attacked and self.within_attacking_distance(map):
-            # Mob attacks back
-            self.attack(map.actor, 1, msg_window,map)
+    def make_move(self, map, msg_window):
+        if self.within_attacking_distance(map):
+            self.attack(map.actor, 1, msg_window, map)
         else:
-            x = random.randint(0, 4)
-            match x:
-                case 0:
-                    self.move_mob(self.x, self.y + 1, map)
-                case 1:
-                    self.move_mob(self.x, self.y - 1, map)
-                case 2:
-                    self.move_mob(self.x + 1, self.y, map)
-                case 3:
-                    self.move_mob(self.x - 1, self.y, map)
+            if self.within_the_vision(map):
+                dx, dy = map.actor.x - self.x, map.actor.y - self.y
+                mag = pow(dx * dx + dy * dy, 0.5)
+                if mag != 0:
+                    dx, dy = dx / mag, dy / mag
+                self.last_known_player_pos = (map.actor.x, map.actor.y)
+            else:
+                if self.last_known_player_pos:
+                    dx, dy = self.last_known_player_pos[0] - self.x, self.last_known_player_pos[1] - self.y
+                    mag = pow(dx * dx + dy * dy, 0.5)
+                    if mag != 0:
+                        dx, dy = dx / mag, dy / mag
+                else:
+                    x = random.randint(0, 4)
+                    match x:
+                        case 0:
+                            dx, dy = 0, 1
+                        case 1:
+                            dx, dy = 0, -1
+                        case 2:
+                            dx, dy = 1, 0
+                        case 3:
+                            dx, dy = -1, 0
+                        case _:
+                            dx, dy = 0, 0  # Add this line
+
+            if abs(dx) > abs(dy):
+                self.move_mob(self.x + 1 if dx > 0 else self.x - 1, self.y, map)
+            else:
+                self.move_mob(self.x, self.y + 1 if dy > 0 else self.y - 1, map)
+
+
+
+

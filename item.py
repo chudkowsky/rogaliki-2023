@@ -56,7 +56,7 @@ class Boots(Item):
     def __init__(self, x, y, quality, name, agility):
             super().__init__(x, y, quality, name)
             self.power = agility* self.quality.value[1]
-            self.type = "Boots"
+            self.type = "boots"
 
     def apply_item_effect(self, actor):
             actor.agility += self.power
@@ -68,7 +68,7 @@ class Potion(Item):
     def __init__(self, x, y, quality, name, power, ):
         super().__init__(x, y, quality, name)
         self.power = power * self.quality.value[1]
-        self.type = "Potion"
+        self.type = "potion"
 
 
 
@@ -76,7 +76,7 @@ class HealingPotion(Potion):
     def __init__(self, x, y, quality, name, power):
         super().__init__(x, y, quality, name, power)
         self.power = power * self.quality.value[1]
-        self.type = "Potion"
+        self.type = "potion"
 
     def apply_item_effect(self, actor):
         actor.health += self.power
@@ -85,7 +85,7 @@ class PotionOfStrength(Potion):
     def __init__(self, x, y, quality, name, power):
         super().__init__(x, y, quality, name, power)
         self.power = power * self.quality.value[1]
-        self.type = "Potion"
+        self.type = "potion"
 
     def apply_item_effect(self, actor):
         actor.strength += self.power

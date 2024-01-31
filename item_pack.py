@@ -96,7 +96,6 @@ class Potions():
     healing_potion6 = i.HealingPotion(2, 3, common, "Lecznicza orzeźwiająca mikstura", 12)
     healing_potion7 = i.HealingPotion(4, 2, rare, "Lecznicza mikstura z nutą cytrusową", 18)
 
-    potion_of_strength1 = i.PotionOfStrength(3, 3, common, "Siła przodków hobbitów", 19)
 
 # class BlacksmithBooks():
 #     raise NotImplementedError
@@ -118,9 +117,13 @@ def generate_random_items(item_class, num_items):
     return items
 
 
-def generate_combined_items(num_items,common_ratio,rare_ratio,epic_ratio,legendary_ratio):
+def generate_random_healing_potions(num_potions):
+    healing_potions = generate_random_items(Potions, num_potions)
+    return healing_potions
 
-    total_ratio = common_ratio + rare_ratio + epic_ratio+legendary_ratio
+
+def generate_combined_items_with_potions(num_items, common_ratio, rare_ratio, epic_ratio, legendary_ratio):
+    total_ratio = common_ratio + rare_ratio + epic_ratio + legendary_ratio
 
     common_items = generate_random_items(CommonItems, int(num_items * common_ratio / total_ratio))
     rare_items = generate_random_items(RareItems, int(num_items * rare_ratio / total_ratio))
@@ -128,6 +131,10 @@ def generate_combined_items(num_items,common_ratio,rare_ratio,epic_ratio,legenda
     legendary_items = generate_random_items(LegendaryItems, int(num_items * legendary_ratio / total_ratio))
 
     combined_items = common_items + rare_items + epic_items + legendary_items
+
+    healing_potions = generate_random_healing_potions(3)
+    combined_items += healing_potions
+
     return combined_items
 
 
@@ -137,8 +144,9 @@ def items_for_each_lvl():
     r = 0.3
     e = 0.1
     l = 0.05
+
     for i in range(10):
-        tmp = generate_combined_items(7,c,r,e,l)
+        tmp = generate_combined_items_with_potions(7, c, r, e, l)
         result.append(tmp.copy())
         c -= 0.05
         r += 0.12
@@ -154,5 +162,3 @@ def test_print(result):
             print(item.name + ": " + str(item.quality.value[0]) + " ")
         print()
         i += 1
-
-test_print(items_for_each_lvl())

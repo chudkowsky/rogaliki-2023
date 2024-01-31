@@ -1,6 +1,7 @@
 import curses
 import actor as a
 import decorator
+import item
 import item_pack
 import map as m
 import mob_pack as pack
@@ -15,7 +16,7 @@ rare = quality.Quality.RARE
 epic = quality.Quality.EPIC
 common = quality.Quality.COMMON
 items = item_pack.items_for_each_lvl()
-hero = a.Person("Roland", 3, 2, 9, 10, 10, 6, 800, 6)
+hero = a.Person("Roland", 3, 2, 9, 10, 10, 6, 500, 6)
 
 
 def main(stdscr):
@@ -45,29 +46,32 @@ def main(stdscr):
         map_window.clear()
         msg_window.clear()
         mapka.show_stats(msg_window, mobs_killed, lvl)
+        mapka.actor.show_eq(msg_window)
         moved = False
         if user_input == "KEY_UP":
-            mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"up")
+            mobs_killed = mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"up")
             mapka.move_person(mapka.actor.x - 1, mapka.actor.y)
             moved = True
         elif user_input == "KEY_DOWN":
-            mapka.actor.attack_with_key(mapka,mobs_killed,msg_window,"down")
+            mobs_killed = mapka.actor.attack_with_key(mapka,mobs_killed,msg_window,"down")
             mapka.move_person(mapka.actor.x + 1, mapka.actor.y)
             moved = True
         elif user_input == "KEY_LEFT":
-            mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"left")
+            mobs_killed = mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"left")
             mapka.move_person(mapka.actor.x, mapka.actor.y - 1)
             moved = True
         elif user_input == "KEY_RIGHT":
-            mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"right")
+            mobs_killed = mapka.actor.attack_with_key(mapka, mobs_killed, msg_window,"right")
             mapka.move_person(mapka.actor.x, mapka.actor.y + 1)
             moved = True
         elif user_input == "\n":
             if (mapka.map_check(mapka.actor.x, mapka.actor.y) == "stairs" and not mapka.show_info(msg_window, 0)):
                 lvl += 1
+                mapka.actor.level_up()
                 mapka = m.Map(maps[lvl][0], maps[lvl][1], maps[lvl][2], hero, items[lvl], [])
                 mapka.adjust_mobs_to_lvl(lvl, mobs1.copy(), mobs2.copy(), mobs3.copy())
                 mapka.set_mobs_and_items_on_map()
+                mobs_killed = 0
                 msg_window.refresh()
         elif user_input == "i":
             mapka.show_info(msg_window, 1)
@@ -88,13 +92,14 @@ def main(stdscr):
                 msg_window.addstr(f"Przeciwnik w zasiegu! ")
                 msg_window.addstr(f"{elem[0].name} \n")
         msg_window.refresh()
-        for mobs in mapka.mobs:
-            if (mobs.alive):
-                mobs.make_move(mob_attacked, mapka, msg_window)
-            msg_window.refresh()
+        if moved:
+            for mobs in mapka.mobs:
+                if (mobs.alive):
+                    mobs.make_move( mapka, msg_window)
+                msg_window.refresh()
         msg_window.refresh()
         mapka.remove_dead_mobs()
-        mapka.map_printer(map_window)
+        mapka.map_printer2(map_window)
         msg_window.refresh()
         map_window.refresh()
         if not hero.alive:
