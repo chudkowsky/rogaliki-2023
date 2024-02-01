@@ -49,6 +49,7 @@ def main(stdscr):
     mapka.set_mobs_and_items_on_map()
 
     while True:
+
         user_input = stdscr.getkey()
         map_window.clear()
         msg_window.clear()
@@ -71,6 +72,11 @@ def main(stdscr):
             mobs_killed = mapka.actor.attack_with_key(mapka, mobs_killed, msg_window, "right")
             mapka.move_person(mapka.actor.x, mapka.actor.y + 1)
             moved = True
+        elif user_input == "h":
+            msg_window.refresh()
+            decorator.decorate(msg_window,6)
+            msg_window.refresh()
+            stdscr.getch()
         elif user_input == "\n":
             if mapka.map_check(mapka.actor.x, mapka.actor.y) == "stairs" and not mapka.show_info(msg_window, 0):
                 lvl += 1
